@@ -36,91 +36,92 @@ def load_args():
     print(args)
     return args
 
-def load_shikra_model():
-    #########################################
-    # mllm model init
-    #########################################
-    model_name_or_path = args.model_path
+#########################################
+# mllm model init
+#########################################
+args = load_args()
 
-    model_args = Config(dict(
-        type='shikra',
-        version='v1',
+model_name_or_path = args.model_path
 
-        # checkpoint config
-        cache_dir=None,
-        model_name_or_path=model_name_or_path,
-        vision_tower=r'openai/clip-vit-large-patch14',
-        pretrain_mm_mlp_adapter=None,
+model_args = Config(dict(
+    type='shikra',
+    version='v1',
 
-        # model config
-        mm_vision_select_layer=-2,
-        model_max_length=2048,
+    # checkpoint config
+    cache_dir=None,
+    model_name_or_path=model_name_or_path,
+    vision_tower=r'openai/clip-vit-large-patch14',
+    pretrain_mm_mlp_adapter=None,
 
-        # finetune config
-        freeze_backbone=False,
-        tune_mm_mlp_adapter=False,
-        freeze_mm_mlp_adapter=False,
+    # model config
+    mm_vision_select_layer=-2,
+    model_max_length=2048,
 
-        # data process config
-        is_multimodal=True,
-        sep_image_conv_front=False,
-        image_token_len=256,
-        mm_use_im_start_end=True,
+    # finetune config
+    freeze_backbone=False,
+    tune_mm_mlp_adapter=False,
+    freeze_mm_mlp_adapter=False,
 
-        target_processor=dict(
-            boxes=dict(type='PlainBoxFormatter'),
-        ),
+    # data process config
+    is_multimodal=True,
+    sep_image_conv_front=False,
+    image_token_len=256,
+    mm_use_im_start_end=True,
 
-        process_func_args=dict(
-            conv=dict(type='ShikraConvProcess'),
-            target=dict(type='BoxFormatProcess'),
-            text=dict(type='ShikraTextProcess'),
-            image=dict(type='ShikraImageProcessor'),
-        ),
+    target_processor=dict(
+        boxes=dict(type='PlainBoxFormatter'),
+    ),
 
-        conv_args=dict(
-            conv_template='vicuna_v1.1',
-            transforms=dict(type='Expand2square'),
-            tokenize_kwargs=dict(truncation_size=None),
-        ),
+    process_func_args=dict(
+        conv=dict(type='ShikraConvProcess'),
+        target=dict(type='BoxFormatProcess'),
+        text=dict(type='ShikraTextProcess'),
+        image=dict(type='ShikraImageProcessor'),
+    ),
 
-        gen_kwargs_set_pad_token_id=True,
-        gen_kwargs_set_bos_token_id=True,
-        gen_kwargs_set_eos_token_id=True,
-    ))
-    training_args = Config(dict(
-        bf16=False,
-        fp16=True,
-        device='cuda',
-        fsdp=None,
-    ))
+    conv_args=dict(
+        conv_template='vicuna_v1.1',
+        transforms=dict(type='Expand2square'),
+        tokenize_kwargs=dict(truncation_size=None),
+    ),
 
-    if args.load_in_8bit:
-        quantization_kwargs = dict(
-            quantization_config=BitsAndBytesConfig(
-                load_in_8bit=True,
-            )
+    gen_kwargs_set_pad_token_id=True,
+    gen_kwargs_set_bos_token_id=True,
+    gen_kwargs_set_eos_token_id=True,
+))
+training_args = Config(dict(
+    bf16=False,
+    fp16=True,
+    device='cuda',
+    fsdp=None,
+))
+
+if args.load_in_8bit:
+    quantization_kwargs = dict(
+        quantization_config=BitsAndBytesConfig(
+            load_in_8bit=True,
         )
-    else:
-        quantization_kwargs = dict()
+    )
+else:
+    quantization_kwargs = dict()
 
-    model_, preprocessor_ = load_pretrained_shikra(model_args, training_args, **quantization_kwargs)
-    if not getattr(model_, 'is_quantized', False):
-        model_.to(dtype=torch.float16, device=torch.device('cuda'))
-    if not getattr(model_.vision_tower[0], 'is_quantized', False):
-        model_.vision_tower[0].to(dtype=torch.float16, device=torch.device('cuda'))
-    print(
-        f"LLM device: {model_.device}, is_quantized: {getattr(model_, 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model_, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model_, 'is_loaded_in_8bit', False)}")
-    print(
-        f"vision device: {model_.vision_tower[0].device}, is_quantized: {getattr(model_.vision_tower[0], 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model_, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model_, 'is_loaded_in_8bit', False)}")
+model, preprocessor = load_pretrained_shikra(model_args, training_args, **quantization_kwargs)
+if not getattr(model, 'is_quantized', False):
+    model.to(dtype=torch.float16, device=torch.device('cuda'))
+if not getattr(model.vision_tower[0], 'is_quantized', False):
+    model.vision_tower[0].to(dtype=torch.float16, device=torch.device('cuda'))
+print(
+    f"LLM device: {model.device}, is_quantized: {getattr(model, 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
+print(
+    f"vision device: {model.vision_tower[0].device}, is_quantized: {getattr(model.vision_tower[0], 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
 
-    preprocessor_['target'] = {'boxes': PlainBoxFormatter()}
-    tokenizer_ = preprocessor_['text']
+preprocessor['target'] = {'boxes': PlainBoxFormatter()}
+tokenizer = preprocessor['text']
 
-    return preprocessor_, tokenizer_, model_
+# return preprocessor, tokenizer, model
 
 #Converted Function from Web Demo:
-def process_request(image_path, user_input):
+def process_request(, image_path, user_input):
     do_sample = False
     max_length = 512
     top_p = 1.0
@@ -238,12 +239,10 @@ def test_one_pass():
     input_img_path = "./000000111179.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
     # input_query = "In the image, I need the bounding box coordinates of every object."
-    preprocessor, tokenizer, model = load_shikra_model()
     response = process_request(input_img_path, input_query)
     print(response)
 
-args = load_args()
-preprocessor, tokenizer, model = load_shikra_model()
+# preprocessor, tokenizer, model = load_shikra_model()
 if __name__ == "__main__":
         if args.mode == 1:
             get_obj_complexity()

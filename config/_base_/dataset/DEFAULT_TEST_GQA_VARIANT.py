@@ -1,10 +1,9 @@
 GQA_TEST_COMMON_CFG = dict(
     type='GQADataset',
-    image_folder=r'zz1424:s3://publicdataset_11/GQA/unzip/images',
+    image_folder='/datasets/GQA/images',
     scene_graph_file=None,
     scene_graph_index=None,
 )
-
 # use standard q-a mode
 DEFAULT_TEST_GQA_VARIANT = dict(
     GQA_Q_A_BALANCED=dict(

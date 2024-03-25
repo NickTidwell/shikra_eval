@@ -108,12 +108,12 @@ else:
 model, preprocessor = load_pretrained_shikra(model_args, training_args, **quantization_kwargs)
 if not getattr(model, 'is_quantized', False):
     model.to(dtype=torch.float16, device=torch.device('cuda'))
-if not getattr(model.model.model.vision_tower[0], 'is_quantized', False):
-    model.model.model.vision_tower[0].to(dtype=torch.float16, device=torch.device('cuda'))
+if not getattr(model.model.vision_tower[0], 'is_quantized', False):
+    model.model.vision_tower[0].to(dtype=torch.float16, device=torch.device('cuda'))
 print(
     f"LLM device: {model.device}, is_quantized: {getattr(model, 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
 print(
-    f"vision device: {model.model.model.vision_tower[0].device}, is_quantized: {getattr(model.model.model.vision_tower[0], 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
+    f"vision device: {model.model.vision_tower[0].device}, is_quantized: {getattr(model.model.vision_tower[0], 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
 
 preprocessor['target'] = {'boxes': PlainBoxFormatter()}
 tokenizer = preprocessor['text']

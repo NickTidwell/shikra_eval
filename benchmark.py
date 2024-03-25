@@ -1,23 +1,16 @@
 import argparse
 import os
-import sys
 import base64
 import logging
-import time
-from pathlib import Path
 from io import BytesIO
 import os
 
 import json
 import torch
-import uvicorn
 import transformers
 from PIL import Image
 from mmengine import Config
 from transformers import BitsAndBytesConfig
-from fastapi import FastAPI, Request, HTTPException
-
-# sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from mllm.dataset.process_function import PlainBoxFormatter
 from mllm.dataset.builder import prepare_interactive
@@ -140,7 +133,7 @@ def process_request( model, image_path, user_input):
     image = expand2square(pil_image)
     boxes_value = [box_xyxy_expand2square(box, w=pil_image.width, h=pil_image.height) for box in boxes_value]
     ds.set_image(image)
-    ds.append_message(role=ds.roles[0], message=user_input, boxes=[], boxes_seq=[]])
+    ds.append_message(role=ds.roles[0], message=user_input, boxes=[], boxes_seq=[])
     model_inputs = ds.to_model_input()
     model_inputs['images'] = model_inputs['images'].to(torch.float16)
     print(f"model_inputs: {model_inputs}")

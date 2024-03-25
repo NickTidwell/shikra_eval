@@ -104,20 +104,20 @@ def load_shikra_model():
     else:
         quantization_kwargs = dict()
 
-    model, preprocessor = load_pretrained_shikra(model_args, training_args, **quantization_kwargs)
-    if not getattr(model, 'is_quantized', False):
-        model.to(dtype=torch.float16, device=torch.device('cuda'))
-    if not getattr(model.vision_tower[0], 'is_quantized', False):
-        model.vision_tower[0].to(dtype=torch.float16, device=torch.device('cuda'))
+    model_, preprocessor_ = load_pretrained_shikra(model_args, training_args, **quantization_kwargs)
+    if not getattr(model_, 'is_quantized', False):
+        model_.to(dtype=torch.float16, device=torch.device('cuda'))
+    if not getattr(model_.vision_tower[0], 'is_quantized', False):
+        model_.vision_tower[0].to(dtype=torch.float16, device=torch.device('cuda'))
     print(
-        f"LLM device: {model.device}, is_quantized: {getattr(model, 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
+        f"LLM device: {model_.device}, is_quantized: {getattr(model_, 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model_, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model_, 'is_loaded_in_8bit', False)}")
     print(
-        f"vision device: {model.vision_tower[0].device}, is_quantized: {getattr(model.vision_tower[0], 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
+        f"vision device: {model_.vision_tower[0].device}, is_quantized: {getattr(model_.vision_tower[0], 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model_, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model_, 'is_loaded_in_8bit', False)}")
 
-    preprocessor['target'] = {'boxes': PlainBoxFormatter()}
-    tokenizer = preprocessor['text']
+    preprocessor_['target'] = {'boxes': PlainBoxFormatter()}
+    tokenizer_ = preprocessor_['text']
 
-    return preprocessor, tokenizer, model
+    return preprocessor_, tokenizer_, model_
 
 #Converted Function from Web Demo:
 def process_request(image_path, user_input):

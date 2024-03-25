@@ -12,8 +12,6 @@ from PIL import Image
 from mmengine import Config
 from transformers import BitsAndBytesConfig
 
-# sys.path.append(str(Path(__file__).parent.parent.parent))
-
 from mllm.dataset.process_function import PlainBoxFormatter
 from mllm.dataset.builder import prepare_interactive
 from mllm.models.builder.build_shikra import load_pretrained_shikra
@@ -176,7 +174,7 @@ def test_one_pass():
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
     # input_query = "In the image, I need the bounding box coordinates of every object."
     model = load_shikra_model()
-    response = process_request(model, input_img_path=input_img_path, input_query=input_query)
+    response = process_request(model, input_img_path, input_query)
     print(response)
 
 args = load_args()

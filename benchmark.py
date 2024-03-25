@@ -11,7 +11,7 @@ import transformers
 from PIL import Image
 from mmengine import Config
 from transformers import BitsAndBytesConfig
-
+import numpy as np
 from mllm.dataset.process_function import PlainBoxFormatter
 from mllm.dataset.builder import prepare_interactive
 from mllm.models.builder.build_shikra import load_pretrained_shikra
@@ -107,29 +107,26 @@ def load_shikra_model():
     model, preprocessor = load_pretrained_shikra(model_args, training_args, **quantization_kwargs)
     if not getattr(model, 'is_quantized', False):
         model.to(dtype=torch.float16, device=torch.device('cuda'))
-    if not getattr(model.model.vision_tower[0], 'is_quantized', False):
-        model.model.vision_tower[0].to(dtype=torch.float16, device=torch.device('cuda'))
+    if not getattr(model.vision_tower[0], 'is_quantized', False):
+        model.vision_tower[0].to(dtype=torch.float16, device=torch.device('cuda'))
     print(
         f"LLM device: {model.device}, is_quantized: {getattr(model, 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
     print(
-        f"vision device: {model.model.vision_tower[0].device}, is_quantized: {getattr(model.model.vision_tower[0], 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
+        f"vision device: {model.vision_tower[0].device}, is_quantized: {getattr(model.vision_tower[0], 'is_quantized', False)}, is_loaded_in_4bit: {getattr(model, 'is_loaded_in_4bit', False)}, is_loaded_in_8bit: {getattr(model, 'is_loaded_in_8bit', False)}")
 
     preprocessor['target'] = {'boxes': PlainBoxFormatter()}
     tokenizer = preprocessor['text']
-    # return preprocessor, tokenizer, model
-    return {
-        "preprocessor": preprocessor,
-        "tokenizer": tokenizer,
-        "model": model,
-    }
+
+    return preprocessor, tokenizer, model
+
 #Converted Function from Web Demo:
-def process_request( model, image_path, user_input):
+def process_request(image_path, user_input):
     do_sample = False
     max_length = 512
     top_p = 1.0
     temperature =  1.0
     pil_image = Image.open(image_path).convert("RGB")
-    ds = prepare_interactive(model.preprocessor)
+    ds = prepare_interactive(preprocessor)
     image = expand2square(pil_image)
     boxes_value = [box_xyxy_expand2square(box, w=pil_image.width, h=pil_image.height) for box in boxes_value]
     ds.set_image(image)
@@ -140,18 +137,18 @@ def process_request( model, image_path, user_input):
     gen_kwargs = dict(
         use_cache=True,
         do_sample=do_sample,
-        pad_token_id=model.tokenizer.pad_token_id,
-        bos_token_id=model.tokenizer.bos_token_id,
-        eos_token_id=model.tokenizer.eos_token_id,
+        pad_token_id=tokenizer.pad_token_id,
+        bos_token_id=tokenizer.bos_token_id,
+        eos_token_id=tokenizer.eos_token_id,
         max_new_tokens=max_length,
     )
     print(gen_kwargs)
     input_ids = model_inputs['input_ids']
     with torch.inference_mode():
         with torch.autocast(dtype=torch.float16, device_type='cuda'):
-            output_ids = model.model.generate(**model_inputs, **gen_kwargs)
+            output_ids = model.generate(**model_inputs, **gen_kwargs)
     input_token_len = input_ids.shape[-1]
-    response = model.tokenizer.batch_decode(output_ids[:, input_token_len:])[0]
+    response = tokenizer.batch_decode(output_ids[:, input_token_len:])[0]
     print(f"response: {response}")
     return response
 
@@ -180,8 +177,54 @@ def get_obj_complexity():
                 objsPerImagePred[objInSample] = []
             objsPerImagePred[objInSample].append(pred)
 
+    map_dict = dict()
+    for num_truth, _ in objsPerImageTruth.items(): #TODO Gropu obj
+        truth_boxes = objsPerImageTruth[num_truth]
+        pred_boxes = objsPerImagePred[num_truth]
+        mAP = compute_mAP(truth_boxes, pred_boxes)
+        map_dict[num_truth] = mAP
 
+def calculate_iou(box1, box2):
+    x1, y1, w1, h1 = box1
+    x2, y2, w2, h2 = box2
 
+    x_left = max(x1, x2)
+    y_top = max(y1, y2)
+    x_right = min(x1 + w1, x2 + w2)
+    y_bottom = min(y1 + h1, y2 + h2)
+
+    if x_right < x_left or y_bottom < y_top:
+        return 0.0
+
+    intersection_area = (x_right - x_left) * (y_bottom - y_top)
+    union_area = w1 * h1 + w2 * h2 - intersection_area
+
+    return intersection_area / union_area
+
+def compute_mAP(ground_truth, predictions):
+    # Assuming ground_truth and predictions are lists of bounding boxes
+    # Each bounding box: [x_min, y_min, x_max, y_max]
+
+    # Calculate IoU for all pairs
+    iou_matrix = np.zeros((len(ground_truth), len(predictions)))
+    for i, gt_box in enumerate(ground_truth):
+        for j, pred_box in enumerate(predictions):
+            iou_matrix[i, j] = calculate_iou(gt_box, pred_box)
+
+    # Compute precision and recall
+    sorted_indices = np.argsort(-iou_matrix, axis=1)
+    tp, fp = 0, 0
+    precision, recall = [], []
+    for i in range(len(ground_truth)):
+        tp += 1
+        fp += 1
+        precision.append(tp / (tp + fp))
+        recall.append(tp / len(ground_truth))
+
+    # Compute mAP
+    auc = np.trapz(precision, recall)
+    mAP = auc / len(ground_truth)
+    return mAP
 
 def parse_response(response):
     return None
@@ -195,11 +238,12 @@ def test_one_pass():
     input_img_path = "./000000111179.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
     # input_query = "In the image, I need the bounding box coordinates of every object."
-    model = load_shikra_model()
-    response = process_request(model, input_img_path, input_query)
+    preprocessor, tokenizer, model = load_shikra_model()
+    response = process_request(input_img_path, input_query)
     print(response)
 
 args = load_args()
+preprocessor, tokenizer, model = load_shikra_model()
 if __name__ == "__main__":
         if args.mode == 1:
             get_obj_complexity()

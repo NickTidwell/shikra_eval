@@ -128,7 +128,7 @@ def process_request( model, image_path, user_input):
     max_length = 512
     top_p = 1.0
     temperature =  1.0
-    pil_image = Image.open(BytesIO(base64.b64decode(image_path))).convert("RGB")
+    pil_image = Image.open(image_path).convert("RGB")
     ds = prepare_interactive(model.preprocessor)
     image = expand2square(pil_image)
     boxes_value = [box_xyxy_expand2square(box, w=pil_image.width, h=pil_image.height) for box in boxes_value]
@@ -156,6 +156,10 @@ def process_request( model, image_path, user_input):
     return response
 
 def get_obj_complexity():
+    objsPerImagePred = dict()
+    objsPerImageTruth = dict()
+
+
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
     model = load_shikra_model()
@@ -163,9 +167,27 @@ def get_obj_complexity():
         if filename.lower().endswith(".png"):
             full_path = os.path.join(directory_path, filename)
             input_query = "In the image, I need the bounding box coordinates of every object."
-            process_request(model, full_path, input_query)
+            response = process_request(model, full_path, input_query)
+            target = get_truth_label()
+            pred = parse_response(response)
+
+            objInSample = len(target)
+
+            if objInSample not in objsPerImageTruth:
+                objsPerImageTruth[objInSample] = []  
+            objsPerImageTruth[objInSample].append(target)
+            if objInSample not in objsPerImagePred:
+                objsPerImagePred[objInSample] = []
+            objsPerImagePred[objInSample].append(pred)
 
 
+
+
+def parse_response(response):
+    return None
+
+def get_truth_label():
+    pass
 def get_noval_obj():
      pass
 

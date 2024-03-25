@@ -121,7 +121,7 @@ tokenizer = preprocessor['text']
 # return preprocessor, tokenizer, model
 
 #Converted Function from Web Demo:
-def process_request(, image_path, user_input):
+def process_request(image_path, user_input):
     do_sample = False
     max_length = 512
     top_p = 1.0
@@ -160,7 +160,7 @@ def get_obj_complexity():
 
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
-    model = load_shikra_model()
+    # model = load_shikra_model()
     for filename in os.listdir(directory_path):
         if filename.lower().endswith(".png"):
             full_path = os.path.join(directory_path, filename)

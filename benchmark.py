@@ -177,8 +177,9 @@ def get_noval_obj():
      pass
 
 def test_one_pass():
-    input_img_path = "./000000581781.jpg"
-    input_query = "In the image, I need the bounding box coordinates of every object."
+    input_img_path = "./000000111179.jpg"
+    input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
+    # input_query = "In the image, I need the bounding box coordinates of every object."
     response = process_request(input_img_path=input_img_path, input_query=input_query)
     print(response)
 

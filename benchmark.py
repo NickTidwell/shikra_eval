@@ -125,6 +125,7 @@ tokenizer = preprocessor['text']
 # preprocessor, tokenizer, model = load_shikra_model(args)
 #Converted Function from Web Demo:
 def process_request(image_path, user_input):
+    boxes_value=[]
     pil_image = Image.open(image_path).convert("RGB")
     ds = prepare_interactive(model_args, preprocessor)
     image = expand2square(pil_image)
@@ -261,8 +262,10 @@ def compute_mAP(ground_truth, predictions):
     mAP = auc / len(ground_truth)
     return mAP
 
-def parse_response(response):
-    return None
+def parse_response(text):
+    pattern = r'\[(.*?)\]'
+    matches = re.findall(pattern, text)
+    return matches
 
 def get_truth_label(dataset, full_path):
     image_id_with_zeros = full_path.split('/')[-1].split('.')[0]

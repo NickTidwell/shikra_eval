@@ -126,7 +126,7 @@ tokenizer = preprocessor['text']
 #Converted Function from Web Demo:
 def process_request(image_path, user_input):
     pil_image = Image.open(image_path).convert("RGB")
-    ds = prepare_interactive(preprocessor)
+    ds = prepare_interactive(args, preprocessor)
     image = expand2square(pil_image)
     boxes_value = [box_xyxy_expand2square(box, w=pil_image.width, h=pil_image.height) for box in boxes_value]
     ds.set_image(image)
@@ -266,18 +266,64 @@ def parse_response(response):
 
 def get_truth_label():
     pass
+def get_truth_box(dataset, image_path):
+    pass 
 def get_noval_obj():
-    dataset = json.load(open("./data/lvis_v1_val.json", "r"))
-    directory_path = "/datasets/MSCOCO17/val2017"
-    for filename in os.listdir(directory_path):
+    try:
+        with open("./data/lvis_v1_val.json", "r") as json_file:
+            dataset = json.load(json_file)
+    except FileNotFoundError:
+        print("Error: LVIS dataset file not found.")
+        return
+
+    # Define dataset directory
+    image_directory = "/datasets/MSCOCO17/val2017"
+
+    # Calculate category frequencies
+    category_frequencies = {}
+    for category in dataset['categories']:
+        category_id = category['id']
+        image_count = category['image_count']
+        category_frequencies[category_id] = image_count
+
+    # Calculate quantiles
+    frequencies = list(category_frequencies.values())
+    quantiles = np.quantile(frequencies, [0.25, 0.75])  # For example, using the 25th and 75th percentiles
+
+    rare_pred_boxes = []
+    common_pred_boxes = []
+    rare_truth_boxes = []
+    common_truth_boxes = []
+
+    # Process each image in the directory
+    for filename in os.listdir(image_directory):
         if filename.lower().endswith(".png"):
-            full_path = os.path.join(directory_path, filename)
+            full_path = os.path.join(image_directory, filename)
             input_query = "In the image, I need the bounding box coordinates of every object."
-                        # response = shikra(image_path, "In the image, I need the bounding box coordinates of every object.")
+            # response = shikra(image_path, "In the image, I need the bounding box coordinates of every object.")
 
             response = process_request(model, full_path, input_query)
             target = get_truth_label()
             pred = parse_response(response)
+
+            truth_boxes = [truth_label['category_id'] for truth_label in get_truth_box(dataset, full_path)]
+
+            # Sort boxes
+            rare_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) <= quantiles[0]]
+            common_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) > quantiles[1]]
+
+            if rare_categories:
+                rare_pred_boxes.append(pred)
+                rare_truth_boxes.append(target)
+            if common_categories:
+                common_pred_boxes.append(pred)
+                common_truth_boxes.append(target)
+
+    # Calculate mAP for rare and common categories
+    mAP_rare = compute_mAP(rare_truth_boxes, rare_pred_boxes)
+    mAP_common = compute_mAP(common_truth_boxes, common_pred_boxes)
+
+    mAP_scores = {'rare': mAP_rare, 'common': mAP_common}
 def test_one_pass():
     input_img_path = "./000000111179.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."

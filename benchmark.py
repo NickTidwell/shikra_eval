@@ -201,8 +201,11 @@ def get_obj_complexity():
             full_path = os.path.join(directory_path, filename)
             input_query = "In the image, I need the bounding box coordinates of every object."
             response = process_request(model, full_path, input_query)
+            print("RESPONSE: ", response)
             target = get_truth_label()
+            print("TARGET: ", target)
             pred = parse_response(response)
+            print("PRED: ", pred)
 
             objInSample = len(target)
 
@@ -213,6 +216,12 @@ def get_obj_complexity():
                 objsPerImagePred[objInSample] = []
             objsPerImagePred[objInSample].append(pred)
         itr += 1
+    print("\nobjsPerImageTruth\n")
+    for key, value in objsPerImageTruth.items():
+        print(f"{key}: {value}")    
+    print("\gObjPerImgTru\n")
+    for key, value in gObjPerImgTru.items():
+        print(f"{key}: {value}")    
     gObjPerImgTru = group_results(objsPerImageTruth)
     gObjPerImgPre = group_results(objsPerImagePred)
     map_dict = dict()

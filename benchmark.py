@@ -200,7 +200,7 @@ def get_obj_complexity():
                     break
             full_path = os.path.join(directory_path, filename)
             input_query = "In the image, I need the bounding box coordinates of every object."
-            response = process_request(model, full_path, input_query)
+            response = process_request(full_path, input_query)
             print("RESPONSE: ", response)
             target = get_truth_label()
             print("TARGET: ", target)
@@ -345,7 +345,7 @@ def get_noval_obj():
             input_query = "In the image, I need the bounding box coordinates of every object."
             # response = shikra(image_path, "In the image, I need the bounding box coordinates of every object.")
 
-            response = process_request(model, full_path, input_query)
+            response = process_request(full_path, input_query)
             target = get_truth_label()
             pred = parse_response(response)
 

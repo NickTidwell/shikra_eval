@@ -318,12 +318,33 @@ def get_truth_label(dataset, full_path):
     image_annotations = dataset['annotations']
     annotations_for_image = [annotation for annotation in image_annotations if annotation['image_id'] == image_id]
     return annotations_for_image
+def convert_xywh_to_xyxy(bbox):
+    x, y, w, h = bbox
+    x_min = x
+    y_min = y
+    x_max = x + w
+    y_max = y + h
+    return [x_min, y_min, x_max, y_max]
+def normalize_bounding_box(bbox, image_path):
+    # Load the image
+    image = Image.open(image_path)
+    # Get the dimensions
+    image_width, image_height = image.size
+    x_min_norm = bbox[0] / image_width
+    y_min_norm = bbox[1] / image_height
+    x_max_norm = (bbox[0] + bbox[2]) / image_width
+    y_max_norm = (bbox[1] + bbox[3]) / image_height
+    normalized_box = [x_min_norm, y_min_norm, x_max_norm, y_max_norm]
+
+    return normalized_box
 
 def get_truth_box(dataset, image_path):
     image_id_with_zeros = image_path.split('/')[-1].split('.')[0]
     image_id = int(image_id_with_zeros.lstrip('0'))
     image_annotations = dataset['annotations']
     bounding_boxes_for_image = [annotation['bbox'] for annotation in image_annotations if annotation['image_id'] == image_id]
+    bounding_boxes_for_image = [convert_xywh_to_xyxy(gt_box) for gt_box in bounding_boxes_for_image]
+    bounding_boxes_for_image = [normalize_bounding_box(gt_box, image_path) for gt_box in bounding_boxes_for_image]
     return bounding_boxes_for_image
 def get_noval_obj():
     try:

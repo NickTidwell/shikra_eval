@@ -246,8 +246,8 @@ def calculate_iou(box1, box2):
     print("\ncalculate_iou\n")
     print(box1)
     print(box2)
-    x1, y1, w1, h1 = box1
-    x2, y2, w2, h2 = box2
+    x1, y1, w1, h1 = box1[0]
+    x2, y2, w2, h2 = box2[0]
 
     x_left = max(x1, x2)
     y_top = max(y1, y2)
@@ -302,6 +302,7 @@ def parse_response(text):
         pattern = r'\[(.*?)\]'
         matches = re.findall(pattern, text)
         out_list = [tuple(float(x) for x in sublist.split(',')) for box in matches for sublist in box.split(';')]
+        out_list = [list(coord) for coord in out_list]
     except:
         pass
 

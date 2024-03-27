@@ -241,10 +241,12 @@ def calculate_iou(box1, box2):
 
     return intersection_area / union_area
 
-def compute_mAP(ground_truth, predictions):
+def compute_mAP(ground_truth, predictions, thresh=0.5):
     # Assuming ground_truth and predictions are lists of bounding boxes
     # Each bounding box: [x_min, y_min, x_max, y_max]
-
+    if len(ground_truth) == 0:
+        print("ERROR: Ground Truth 0")
+        return 0.0  # Return 0 if no ground truth boxes
     # Calculate IoU for all pairs
     iou_matrix = np.zeros((len(ground_truth), len(predictions)))
     for i, gt_box in enumerate(ground_truth):
@@ -256,8 +258,15 @@ def compute_mAP(ground_truth, predictions):
     tp, fp = 0, 0
     precision, recall = [], []
     for i in range(len(ground_truth)):
-        tp += 1
-        fp += 1
+        matched = False
+        for j in sorted_indices[i]:
+            if iou_matrix[i, j] > thresh:
+                matched = True
+                break
+        if matched:
+            tp += 1
+        else:
+            fp += 1
         precision.append(tp / (tp + fp))
         recall.append(tp / len(ground_truth))
 

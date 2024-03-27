@@ -167,6 +167,8 @@ def group_results(objs_per_image):
     '20+': []
     }
     for num_truth, boxes in objs_per_image.items():
+        if num_truth == 0:
+                pass
         if num_truth == 1:
             for box in boxes:
                 grouped_objs['1'].append(box[0])

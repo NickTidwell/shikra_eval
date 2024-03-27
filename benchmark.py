@@ -126,7 +126,7 @@ tokenizer = preprocessor['text']
 #Converted Function from Web Demo:
 def process_request(image_path, user_input):
     pil_image = Image.open(image_path).convert("RGB")
-    ds = prepare_interactive(args, preprocessor)
+    ds = prepare_interactive(model_args, preprocessor)
     image = expand2square(pil_image)
     boxes_value = [box_xyxy_expand2square(box, w=pil_image.width, h=pil_image.height) for box in boxes_value]
     ds.set_image(image)
@@ -264,10 +264,19 @@ def compute_mAP(ground_truth, predictions):
 def parse_response(response):
     return None
 
-def get_truth_label():
-    pass
+def get_truth_label(dataset, full_path):
+    image_id_with_zeros = full_path.split('/')[-1].split('.')[0]
+    image_id = int(image_id_with_zeros.lstrip('0'))
+    image_annotations = dataset['annotations']
+    annotations_for_image = [annotation for annotation in image_annotations if annotation['image_id'] == image_id]
+    return annotations_for_image
+
 def get_truth_box(dataset, image_path):
-    pass 
+    image_id_with_zeros = image_path.split('/')[-1].split('.')[0]
+    image_id = int(image_id_with_zeros.lstrip('0'))
+    image_annotations = dataset['annotations']
+    bounding_boxes_for_image = [annotation['bbox'] for annotation in image_annotations if annotation['image_id'] == image_id]
+    return bounding_boxes_for_image
 def get_noval_obj():
     try:
         with open("./data/lvis_v1_val.json", "r") as json_file:

@@ -41,8 +41,6 @@ def load_args():
 #########################################
 # mllm model init
 #########################################
-
-
 args = load_args()
 
 # def load_shikra_model(args):
@@ -203,7 +201,6 @@ def get_obj_complexity():
 
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
-    # preprocessor, tokenizer, model = load_shikra_model(args)
     itr = 0
     for filename in os.listdir(directory_path):
         if filename.lower().endswith(".jpg"):
@@ -211,13 +208,13 @@ def get_obj_complexity():
                 if itr == 30:
                     break
             full_path = os.path.join(directory_path, filename)
-            input_query = "In the image, I need the bounding box coordinates of every object."
+            input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
             response = process_request(full_path, input_query)
-            print("RESPONSE: ", response)
+            # print("RESPONSE: ", response)
             target = get_truth_box(dataset, full_path)
-            print("TARGET: ", target)
+            # print("TARGET: ", target)
             pred = parse_response(response)
-            print("PRED: ", pred)
+            # print("PRED: ", pred)
 
             objInSample = len(target)
 
@@ -231,25 +228,25 @@ def get_obj_complexity():
 
     gObjPerImgTru = group_results(objsPerImageTruth)
     gObjPerImgPre = group_results(objsPerImagePred)
-    print("\gObjPerImgPre\n")
-    for key, value in gObjPerImgPre.items():
-        print(f"{key}: {value}")    
-    print("\nObjPerImgTru\n")
-    for key, value in gObjPerImgTru.items():
-        print(f"{key}: {value}")    
+    # print("\gObjPerImgPre\n")
+    # for key, value in gObjPerImgPre.items():
+    #     print(f"{key}: {value}")    
+    # print("\nObjPerImgTru\n")
+    # for key, value in gObjPerImgTru.items():
+    #     print(f"{key}: {value}")    
     map_dict = dict()
     for num_truth, _ in gObjPerImgTru.items(): #TODO Gropu obj
         truth_boxes = gObjPerImgTru[num_truth]
         pred_boxes = gObjPerImgPre[num_truth]
         mAP = compute_mAP(truth_boxes, pred_boxes)
         map_dict[num_truth] = mAP
-    print("\nOBJECTS COMPLEXITY Output\n")
-    for key, value in map_dict.items():
-        print(f"{key}: {value}")
+    # print("\nOBJECTS COMPLEXITY Output\n")
+    # for key, value in map_dict.items():
+    #     print(f"{key}: {value}")
 def calculate_iou(box1, box2):
-    print("\ncalculate_iou\n")
-    print(box1)
-    print(box2)
+    # print("\ncalculate_iou\n")
+    # print(box1)
+    # print(box2)
     x1, y1, w1, h1 = box1
     x2, y2, w2, h2 = box2
 
@@ -380,9 +377,7 @@ def get_noval_obj():
                 if itr == 30:
                     break
             full_path = os.path.join(image_directory, filename)
-            input_query = "In the image, I need the bounding box coordinates of every object."
-            # response = shikra(image_path, "In the image, I need the bounding box coordinates of every object.")
-
+            input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
             response = process_request(full_path, input_query)
             target = get_truth_label(dataset, full_path)
             pred = parse_response(response)
@@ -413,7 +408,6 @@ def get_noval_obj():
 def test_one_pass():
     input_img_path = "./000000111179.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
-    # input_query = "In the image, I need the bounding box coordinates of every object."
     response = process_request(input_img_path, input_query)
     print(response)
 

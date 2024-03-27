@@ -194,7 +194,7 @@ def get_obj_complexity():
     # preprocessor, tokenizer, model = load_shikra_model(args)
     itr = 0
     for filename in os.listdir(directory_path):
-        if filename.lower().endswith(".png"):
+        if filename.lower().endswith(".jpg"):
             if args.small_set:
                 if itr == 30:
                     break
@@ -219,7 +219,7 @@ def get_obj_complexity():
     print("\nobjsPerImageTruth\n")
     for key, value in objsPerImageTruth.items():
         print(f"{key}: {value}")    
-    print("\gObjPerImgTru\n")
+    print("\nObjPerImgTru\n")
     for key, value in gObjPerImgTru.items():
         print(f"{key}: {value}")    
     gObjPerImgTru = group_results(objsPerImageTruth)

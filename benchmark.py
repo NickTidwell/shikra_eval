@@ -187,12 +187,13 @@ def group_results(objs_per_image):
         elif 6 <= num_truth <= 10:
             for box in boxes:
                 grouped_objs['6-10'].append(box[0])
-        elif 11 <= num_truth <= 20:
+        elif 11 <= num_truth < 20:
             for box in boxes:
                 grouped_objs['11-20'].append(box[0])
-        else:
+        elif num_truth >= 20:
             for box in boxes:
-                grouped_objs['20+'].append(box[0])
+                print(box)
+                grouped_objs['20+'].append(box)
     return grouped_objs
 def get_obj_complexity():
     objsPerImagePred = dict()

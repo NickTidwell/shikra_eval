@@ -194,6 +194,7 @@ def group_results(objs_per_image):
             for box in boxes:
                 print(box)
                 grouped_objs['20+'].append(box)
+    grouped_objs['20+'] = grouped_objs['20+'][0]
     return grouped_objs
 def get_obj_complexity():
     objsPerImagePred = dict()
@@ -230,8 +231,8 @@ def get_obj_complexity():
 
     gObjPerImgTru = group_results(objsPerImageTruth)
     gObjPerImgPre = group_results(objsPerImagePred)
-    print("\nobjsPerImageTruth\n")
-    for key, value in objsPerImageTruth.items():
+    print("\gObjPerImgPre\n")
+    for key, value in gObjPerImgPre.items():
         print(f"{key}: {value}")    
     print("\nObjPerImgTru\n")
     for key, value in gObjPerImgTru.items():

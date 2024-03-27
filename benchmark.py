@@ -121,7 +121,8 @@ def load_shikra_model(args):
     tokenizer = preprocessor['text']
     return preprocessor, tokenizer, model
 
-
+args = load_args()
+preprocessor, tokenizer, model = load_shikra_model(args)
 #Converted Function from Web Demo:
 def process_request(image_path, user_input):
     pil_image = Image.open(image_path).convert("RGB")
@@ -150,9 +151,38 @@ def process_request(image_path, user_input):
     response = tokenizer.batch_decode(output_ids[:, input_token_len:])[0]
     print(f"response: {response}")
     return response
-args = load_args()
-preprocessor, tokenizer, model = load_shikra_model(args)
 
+
+
+def group_results(objs_per_image):
+    grouped_objs = {
+    '1': [],
+    '2': [],
+    '3': [],
+    '4': [],
+    '5': [],
+    '6-10': [],
+    '11-20': [],
+    '20+': []
+    }
+    for num_truth, boxes in objs_per_image.items():
+        if num_truth == 1:
+            grouped_objs['1'].append(boxes)
+        elif num_truth == 2:
+            grouped_objs['2'].append(boxes)
+        elif num_truth == 3:
+            grouped_objs['3'].append(boxes)
+        elif num_truth == 4:
+            grouped_objs['4'].append(boxes)
+        elif num_truth == 5:
+            grouped_objs['5'].append(boxes)
+        elif 6 <= num_truth <= 10:
+            grouped_objs['6-10'].append(boxes)
+        elif 11 <= num_truth <= 20:
+            grouped_objs['11-20'].append(boxes)
+        else:
+            grouped_objs['20+'].append(boxes)
+    return grouped_objs
 def get_obj_complexity():
     objsPerImagePred = dict()
     objsPerImageTruth = dict()
@@ -160,7 +190,7 @@ def get_obj_complexity():
 
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
-    preprocessor, tokenizer, model = load_shikra_model(args)
+    # preprocessor, tokenizer, model = load_shikra_model(args)
     for filename in os.listdir(directory_path):
         if filename.lower().endswith(".png"):
             full_path = os.path.join(directory_path, filename)
@@ -178,13 +208,17 @@ def get_obj_complexity():
                 objsPerImagePred[objInSample] = []
             objsPerImagePred[objInSample].append(pred)
 
+    gObjPerImgTru = group_results(objsPerImageTruth)
+    gObjPerImgPre = group_results(objsPerImagePred)
     map_dict = dict()
-    for num_truth, _ in objsPerImageTruth.items(): #TODO Gropu obj
-        truth_boxes = objsPerImageTruth[num_truth]
-        pred_boxes = objsPerImagePred[num_truth]
+    for num_truth, _ in gObjPerImgTru.items(): #TODO Gropu obj
+        truth_boxes = gObjPerImgTru[num_truth]
+        pred_boxes = gObjPerImgPre[num_truth]
         mAP = compute_mAP(truth_boxes, pred_boxes)
         map_dict[num_truth] = mAP
-
+    print("\nOBJECTS COMPLEXITY Output\n")
+    for key, value in map_dict.items():
+        print(f"{key}: {value}")
 def calculate_iou(box1, box2):
     x1, y1, w1, h1 = box1
     x2, y2, w2, h2 = box2

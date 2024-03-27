@@ -216,14 +216,15 @@ def get_obj_complexity():
                 objsPerImagePred[objInSample] = []
             objsPerImagePred[objInSample].append(pred)
         itr += 1
+
+    gObjPerImgTru = group_results(objsPerImageTruth)
+    gObjPerImgPre = group_results(objsPerImagePred)
     print("\nobjsPerImageTruth\n")
     for key, value in objsPerImageTruth.items():
         print(f"{key}: {value}")    
     print("\nObjPerImgTru\n")
     for key, value in gObjPerImgTru.items():
         print(f"{key}: {value}")    
-    gObjPerImgTru = group_results(objsPerImageTruth)
-    gObjPerImgPre = group_results(objsPerImagePred)
     map_dict = dict()
     for num_truth, _ in gObjPerImgTru.items(): #TODO Gropu obj
         truth_boxes = gObjPerImgTru[num_truth]

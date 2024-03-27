@@ -16,6 +16,7 @@ from mllm.dataset.process_function import PlainBoxFormatter
 from mllm.dataset.builder import prepare_interactive
 from mllm.models.builder.build_shikra import load_pretrained_shikra
 from mllm.dataset.utils.transform import expand2square, box_xyxy_expand2square
+import re
 
 log_level = logging.DEBUG
 transformers.logging.set_verbosity(log_level)
@@ -31,6 +32,7 @@ def load_args():
     parser.add_argument('--mode',
                             type=int, default=1,
                             help='Select example to run.')
+    parser.add_argument('--small_set', action='store_true')
 
     args = parser.parse_args()
     print(args)
@@ -120,9 +122,7 @@ print(
 
 preprocessor['target'] = {'boxes': PlainBoxFormatter()}
 tokenizer = preprocessor['text']
-    # return preprocessor, tokenizer, model
 
-# preprocessor, tokenizer, model = load_shikra_model(args)
 #Converted Function from Web Demo:
 def process_request(image_path, user_input):
     boxes_value=[]
@@ -192,8 +192,13 @@ def get_obj_complexity():
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
     # preprocessor, tokenizer, model = load_shikra_model(args)
+    itr = 0
     for filename in os.listdir(directory_path):
+
         if filename.lower().endswith(".png"):
+            if args.small_set:
+                if itr == 30:
+                    break
             full_path = os.path.join(directory_path, filename)
             input_query = "In the image, I need the bounding box coordinates of every object."
             response = process_request(model, full_path, input_query)
@@ -208,7 +213,7 @@ def get_obj_complexity():
             if objInSample not in objsPerImagePred:
                 objsPerImagePred[objInSample] = []
             objsPerImagePred[objInSample].append(pred)
-
+        itr += 1
     gObjPerImgTru = group_results(objsPerImageTruth)
     gObjPerImgPre = group_results(objsPerImagePred)
     map_dict = dict()
@@ -263,9 +268,15 @@ def compute_mAP(ground_truth, predictions):
     return mAP
 
 def parse_response(text):
-    pattern = r'\[(.*?)\]'
-    matches = re.findall(pattern, text)
-    return matches
+    out_list = []
+    try:
+        pattern = r'\[(.*?)\]'
+        matches = re.findall(pattern, text)
+        out_list = [tuple(float(x) for x in sublist.split(',')) for box in matches for sublist in box.split(';')]
+    except:
+        pass
+
+    return out_list
 
 def get_truth_label(dataset, full_path):
     image_id_with_zeros = full_path.split('/')[-1].split('.')[0]

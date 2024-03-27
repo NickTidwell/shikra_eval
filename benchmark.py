@@ -151,7 +151,7 @@ def process_request(image_path, user_input):
     print(f"response: {response}")
     return response
 args = load_args()
-preprocessor, tokenizer, model = load_shikra_model()
+preprocessor, tokenizer, model = load_shikra_model(args)
 
 def get_obj_complexity():
     objsPerImagePred = dict()
@@ -160,7 +160,7 @@ def get_obj_complexity():
 
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
-    preprocessor, tokenizer, model = load_shikra_model()
+    preprocessor, tokenizer, model = load_shikra_model(args)
     for filename in os.listdir(directory_path):
         if filename.lower().endswith(".png"):
             full_path = os.path.join(directory_path, filename)

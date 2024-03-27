@@ -372,7 +372,7 @@ def get_noval_obj():
     itr = 0
     # Process each image in the directory
     for filename in os.listdir(image_directory):
-        if filename.lower().endswith(".png"):
+        if filename.lower().endswith(".jpg"):
             if args.small_set:
                 if itr == 30:
                     break

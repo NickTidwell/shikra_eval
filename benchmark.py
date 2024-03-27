@@ -379,15 +379,25 @@ def get_noval_obj():
             full_path = os.path.join(image_directory, filename)
             input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
             response = process_request(full_path, input_query)
+            print("RESPONSE: ")
+            print(response)
             target = get_truth_label(dataset, full_path)
+            print("target: ")
+            print(target)
             pred = parse_response(response)
-
+            print("pred: ")
+            print(pred)
             truth_boxes = [truth_label['category_id'] for truth_label in get_truth_box(dataset, full_path)]
-
+            print("truth_boxes: ")
+            print(truth_boxes)
             # Sort boxes
             rare_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) <= quantiles[0]]
             common_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) > quantiles[0]]
+            print("rare_categories: ")
+            print(rare_categories)
 
+            print("common_categories: ")
+            print(common_categories)
             if rare_categories:
                 rare_pred_boxes.append(pred)
                 rare_truth_boxes.append(target)

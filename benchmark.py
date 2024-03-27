@@ -194,7 +194,6 @@ def get_obj_complexity():
     # preprocessor, tokenizer, model = load_shikra_model(args)
     itr = 0
     for filename in os.listdir(directory_path):
-
         if filename.lower().endswith(".png"):
             if args.small_set:
                 if itr == 30:
@@ -317,10 +316,13 @@ def get_noval_obj():
     common_pred_boxes = []
     rare_truth_boxes = []
     common_truth_boxes = []
-
+    itr = 0
     # Process each image in the directory
     for filename in os.listdir(image_directory):
         if filename.lower().endswith(".png"):
+            if args.small_set:
+                if itr == 30:
+                    break
             full_path = os.path.join(image_directory, filename)
             input_query = "In the image, I need the bounding box coordinates of every object."
             # response = shikra(image_path, "In the image, I need the bounding box coordinates of every object.")
@@ -341,12 +343,17 @@ def get_noval_obj():
             if common_categories:
                 common_pred_boxes.append(pred)
                 common_truth_boxes.append(target)
+            itr += 1
 
     # Calculate mAP for rare and common categories
     mAP_rare = compute_mAP(rare_truth_boxes, rare_pred_boxes)
     mAP_common = compute_mAP(common_truth_boxes, common_pred_boxes)
 
-    mAP_scores = {'rare': mAP_rare, 'common': mAP_common}
+    scores = {'rare': mAP_rare, 'common': mAP_common}
+    print("\nNOVEL OBJECTS\n")
+    for key, value in scores.items():
+        print(f"{key}: {value}")
+    
 def test_one_pass():
     input_img_path = "./000000111179.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."

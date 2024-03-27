@@ -288,7 +288,7 @@ def get_noval_obj():
 
     # Calculate quantiles
     frequencies = list(category_frequencies.values())
-    quantiles = np.quantile(frequencies, [0.25, 0.75])  # For example, using the 25th and 75th percentiles
+    quantiles = np.quantile(frequencies, [0.25])  # For example, using the 25th and 75th percentiles
 
     rare_pred_boxes = []
     common_pred_boxes = []
@@ -310,7 +310,7 @@ def get_noval_obj():
 
             # Sort boxes
             rare_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) <= quantiles[0]]
-            common_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) > quantiles[1]]
+            common_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) > quantiles[0]]
 
             if rare_categories:
                 rare_pred_boxes.append(pred)

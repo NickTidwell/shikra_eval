@@ -249,8 +249,8 @@ def calculate_iou(box1, box2):
     print("\ncalculate_iou\n")
     print(box1)
     print(box2)
-    x1, y1, w1, h1 = box1[0]
-    x2, y2, w2, h2 = box2[0]
+    x1, y1, w1, h1 = box1
+    x2, y2, w2, h2 = box2
 
     x_left = max(x1, x2)
     y_top = max(y1, y2)

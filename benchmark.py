@@ -17,6 +17,7 @@ from mllm.dataset.builder import prepare_interactive
 from mllm.models.builder.build_shikra import load_pretrained_shikra
 from mllm.dataset.utils.transform import expand2square, box_xyxy_expand2square
 import re
+import cv2
 
 log_level = logging.DEBUG
 transformers.logging.set_verbosity(log_level)
@@ -415,8 +416,26 @@ def get_noval_obj():
             itr += 1
 
     # Calculate mAP for rare and common categories
-    mAP_rare = compute_mAP(rare_truth_boxes, rare_pred_boxes)
+            
+    print("\ncommon_truth_boxes\n")
+    for key, value in common_truth_boxes.items():
+        print(f"{key}: {value}")
+
+    print("\common_pred_boxes\n")
+    for key, value in common_pred_boxes.items():
+        print(f"{key}: {value}")
+
+
     mAP_common = compute_mAP(common_truth_boxes, common_pred_boxes)
+
+    print("\rare_truth_boxes\n")
+    for key, value in rare_truth_boxes.items():
+        print(f"{key}: {value}")
+
+    print("\rare_pred_boxes\n")
+    for key, value in rare_pred_boxes.items():
+        print(f"{key}: {value}")
+    mAP_rare = compute_mAP(rare_truth_boxes, rare_pred_boxes)
 
     scores = {'rare': mAP_rare, 'common': mAP_common}
     print("\nNOVEL OBJECTS\n")
@@ -429,6 +448,32 @@ def test_one_pass():
     response = process_request(input_img_path, input_query)
     print(response)
 
+def process_lvis_example():
+    dataset = json.load(open("./data/lvis_v1_val.json", "r"))
+    directory_path = "/datasets/MSCOCO17/val2017"
+
+    counter = 0
+    max_images = 10
+    for filename in os.listdir(directory_path):
+        if filename.lower().endswith(".jpg"):
+            full_path = os.path.join(directory_path, filename)
+            input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
+            response = process_request(full_path, input_query)
+            target = get_truth_box(dataset, full_path)
+            pred = parse_response(response)
+            cats = get_categories(dataset, full_path)
+            print(cats)
+            image = cv2.imread(full_path)
+            height, width, _ = image.shape
+            for bbox_t, bbox_p in zip(target, pred):
+                cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2]), int(bbox_t[3])), (255, 0, 0), 2)
+                cv2.rectangle(image, (int(bbox_p[0]*width), int(bbox_p[1]*height)), (int(bbox_p[2]*height), int(bbox_p[3]*width)), (0, 0, 255), 2)
+            counter += 1
+            if ( counter == max_images):
+                break
+        cv2.imwrite(f"./img_{counter}.jpg", image)
+        print(response)
+
 if __name__ == "__main__":
         if args.mode == 1:
             get_obj_complexity()
@@ -436,5 +481,6 @@ if __name__ == "__main__":
             get_noval_obj()
         if args.mode == 3:
              test_one_pass()
-             
+        if args.mode == 4:
+             process_lvis_example()
              

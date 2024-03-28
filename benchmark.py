@@ -315,33 +315,41 @@ def get_truth_label(dataset, full_path):
     image_annotations = dataset['annotations']
     annotations_for_image = [annotation for annotation in image_annotations if annotation['image_id'] == image_id]
     return annotations_for_image
-def convert_xywh_to_xyxy(bbox):
+def convert_and_normalize_bbox(bbox, image_path):
+    # Convert from (x, y, w, h) format to (x_min, y_min, x_max, y_max) format
     x, y, w, h = bbox
     x_min = x
     y_min = y
     x_max = x + w
     y_max = y + h
-    return [x_min, y_min, x_max, y_max]
-def normalize_bounding_box(bbox, image_path):
+
     # Load the image
     image = Image.open(image_path)
     # Get the dimensions
     image_width, image_height = image.size
-    x_min_norm = bbox[0] / image_width
-    y_min_norm = bbox[1] / image_height
-    x_max_norm = (bbox[0] + bbox[2]) / image_width
-    y_max_norm = (bbox[1] + bbox[3]) / image_height
-    normalized_box = [x_min_norm, y_min_norm, x_max_norm, y_max_norm]
 
-    return normalized_box
+    # Normalize bounding box coordinates
+    x_min_norm = x_min / image_width
+    y_min_norm = y_min / image_height
+    x_max_norm = x_max / image_width
+    y_max_norm = y_max / image_height
+
+    return [x_min_norm, y_min_norm, x_max_norm, y_max_norm]
+
+
+def get_categories(dataset, image_path):
+    image_id_with_zeros = image_path.split('/')[-1].split('.')[0]
+    image_id = int(image_id_with_zeros.lstrip('0'))
+    image_annotations = dataset['annotations']
+    image_catgories = [annotation['category_id'] for annotation in image_annotations if annotation['image_id'] == image_id]
+    return image_catgories
 
 def get_truth_box(dataset, image_path):
     image_id_with_zeros = image_path.split('/')[-1].split('.')[0]
     image_id = int(image_id_with_zeros.lstrip('0'))
     image_annotations = dataset['annotations']
     bounding_boxes_for_image = [annotation['bbox'] for annotation in image_annotations if annotation['image_id'] == image_id]
-    bounding_boxes_for_image = [convert_xywh_to_xyxy(gt_box) for gt_box in bounding_boxes_for_image]
-    bounding_boxes_for_image = [normalize_bounding_box(gt_box, image_path) for gt_box in bounding_boxes_for_image]
+    bounding_boxes_for_image = [convert_and_normalize_bbox(gt_box, image_path) for gt_box in bounding_boxes_for_image]
     return bounding_boxes_for_image
 def get_noval_obj():
     try:
@@ -387,12 +395,12 @@ def get_noval_obj():
             pred = parse_response(response)
             print("pred: ")
             print(pred)
-            truth_boxes = [truth_label['category_id'] for truth_label in get_truth_box(dataset, full_path)]
-            print("truth_boxes: ")
-            print(truth_boxes)
+            categories = [truth_label['category_id'] for truth_label in get_truth_box(dataset, full_path)]
+            print("categories: ")
+            print(categories)
             # Sort boxes
-            rare_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) <= quantiles[0]]
-            common_categories = [category_id for category_id in truth_boxes if category_frequencies.get(category_id, 0) > quantiles[0]]
+            rare_categories = [category_id for category_id in categories if category_frequencies.get(category_id, 0) <= 10]
+            common_categories = [category_id for category_id in categories if category_frequencies.get(category_id, 0) > 10]
             print("rare_categories: ")
             print(rare_categories)
 

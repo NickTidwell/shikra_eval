@@ -411,23 +411,20 @@ def get_noval_obj():
     # Calculate mAP for rare and common categories
             
     print("\ncommon_truth_boxes\n")
-    for key, value in common_truth_boxes.items():
-        print(f"{key}: {value}")
+    print(common_truth_boxes)
 
-    print("\common_pred_boxes\n")
-    for key, value in common_pred_boxes.items():
-        print(f"{key}: {value}")
-
+    print("\ncommon_pred_boxes\n")
+    print(common_pred_boxes)
 
     mAP_common = compute_mAP(common_truth_boxes, common_pred_boxes)
 
-    print("\rare_truth_boxes\n")
-    for key, value in rare_truth_boxes.items():
-        print(f"{key}: {value}")
+    print("\nrare_truth_boxes\n")
+    print(rare_truth_boxes)
 
-    print("\rare_pred_boxes\n")
-    for key, value in rare_pred_boxes.items():
-        print(f"{key}: {value}")
+
+    print("\nrare_pred_boxes\n")
+    print(rare_pred_boxes)
+
     mAP_rare = compute_mAP(rare_truth_boxes, rare_pred_boxes)
 
     scores = {'rare': mAP_rare, 'common': mAP_common}

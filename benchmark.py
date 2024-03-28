@@ -133,7 +133,6 @@ def process_request(image_path, user_input):
     ds.append_message(role=ds.roles[0], message=user_input, boxes=[], boxes_seq=[])
     model_inputs = ds.to_model_input()
     model_inputs['images'] = model_inputs['images'].to(torch.float16)
-    print(f"model_inputs: {model_inputs}")
     gen_kwargs = dict(
         use_cache=True,
         do_sample=False,
@@ -142,14 +141,12 @@ def process_request(image_path, user_input):
         eos_token_id=tokenizer.eos_token_id,
         max_new_tokens=512,
     )
-    print(gen_kwargs)
     input_ids = model_inputs['input_ids']
     with torch.inference_mode():
         with torch.autocast(dtype=torch.float16, device_type='cuda'):
             output_ids = model.generate(**model_inputs, **gen_kwargs)
     input_token_len = input_ids.shape[-1]
     response = tokenizer.batch_decode(output_ids[:, input_token_len:])[0]
-    print(f"response: {response}")
     return response
 
 
@@ -191,7 +188,6 @@ def group_results(objs_per_image):
                 grouped_objs['11-20'].append(box[0])
         elif num_truth >= 20:
             for box in boxes:
-                print(box)
                 grouped_objs['20+'].append(box)
     grouped_objs['20+'] = grouped_objs['20+'][0]
     return grouped_objs
@@ -211,11 +207,8 @@ def get_obj_complexity():
             full_path = os.path.join(directory_path, filename)
             input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
             response = process_request(full_path, input_query)
-            # print("RESPONSE: ", response)
             target = get_truth_box(dataset, full_path)
-            # print("TARGET: ", target)
             pred = parse_response(response)
-            # print("PRED: ", pred)
 
             objInSample = len(target)
 
@@ -471,16 +464,16 @@ def process_lvis_example():
             counter += 1
             if ( counter == max_images):
                 break
-        cv2.imwrite(f"./img_{counter}.jpg", image)
-        print(response)
+            cv2.imwrite(f"./img_{str(counter)}.jpg", image)
+            print(response)
 
 if __name__ == "__main__":
-        if args.mode == 1:
-            get_obj_complexity()
-        if args.mode == 2:
-            get_noval_obj()
-        if args.mode == 3:
-             test_one_pass()
-        if args.mode == 4:
-             process_lvis_example()
+    if args.mode == 1:
+        get_obj_complexity()
+    if args.mode == 2:
+        get_noval_obj()
+    if args.mode == 3:
+        test_one_pass()
+    if args.mode == 4:
+        process_lvis_example()
              

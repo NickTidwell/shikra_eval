@@ -395,7 +395,7 @@ def get_noval_obj():
             pred = parse_response(response)
             print("pred: ")
             print(pred)
-            categories = [truth_label['category_id'] for truth_label in get_truth_box(dataset, full_path)]
+            categories = get_categories(dataset, full_path)
             print("categories: ")
             print(categories)
             # Sort boxes

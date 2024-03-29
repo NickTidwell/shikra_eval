@@ -263,7 +263,6 @@ def calculate_iou(box1, box2):
     union_area = w1 * h1 + w2 * h2 - intersection_area
 
     return intersection_area / union_area
-
 def compute_mAP(ground_truth, predictions, thresh=0.5):
     # Assuming ground_truth and predictions are lists of bounding boxes
     # Each bounding box: [x_min, y_min, x_max, y_max]
@@ -297,7 +296,6 @@ def compute_mAP(ground_truth, predictions, thresh=0.5):
     auc = np.trapz(precision, recall)
     mAP = auc / len(ground_truth)
     return mAP
-
 def parse_response(text):
     out_list = []
     try:
@@ -356,6 +354,7 @@ def get_truth_box(dataset, image_path):
     bounding_boxes_for_image = [annotation['bbox'] for annotation in image_annotations if annotation['image_id'] == image_id]
     bounding_boxes_for_image = [convert_and_normalize_bbox(gt_box, image_path) for gt_box in bounding_boxes_for_image]
     return bounding_boxes_for_image
+
 def get_noval_obj():
     try:
         with open("./data/lvis_v1_val.json", "r") as json_file:
@@ -387,14 +386,14 @@ def get_noval_obj():
     for filename in os.listdir(image_directory):
         if filename.lower().endswith(".jpg"):
             if args.small_set:
-                if itr == 30:
+                if itr == 200:
                     break
             full_path = os.path.join(image_directory, filename)
             input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
             response = process_request(full_path, input_query)
             print("RESPONSE: ")
             print(response)
-            target = get_truth_label2(dataset, full_path)
+            target = get_truth_box(dataset, full_path)
             print("target: ")
             print(target)
             pred = parse_response(response)
@@ -415,7 +414,7 @@ def get_noval_obj():
                 for box in pred:
                     rare_pred_boxes.append(box)
                 for box in target:
-                    rare_pred_boxes.append(box)
+                    rare_truth_boxes.append(box)
                 # rare_pred_boxes.append(pred)
                 # rare_truth_boxes.append(target)
             if common_categories:

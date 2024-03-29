@@ -445,6 +445,8 @@ def test_one_pass():
     response = process_request(input_img_path, input_query)
     print(response)
 
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
 def process_lvis_example():
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
@@ -463,8 +465,8 @@ def process_lvis_example():
             image = cv2.imread(full_path)
             height, width, _ = image.shape
             for bbox_t, bbox_p in zip(target, pred):
-                cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2]), int(bbox_t[3])), (255, 0, 0), 2)
-                cv2.rectangle(image, (int(bbox_p[0]*width), int(bbox_p[1]*height)), (int(bbox_p[2]*height), int(bbox_p[3]*width)), (0, 0, 255), 2)
+                cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2] + bbox_t[0]), int(bbox_t[3] + bbox_t[1])), RED, 2)
+                cv2.rectangle(image, (int(bbox_p[0]), int(bbox_p[1])), (int(bbox_p[2] + bbox_t[0]), int(bbox_p[3] + bbox_t[1])), BLUE, 2)
             counter += 1
             if ( counter == max_images):
                 break

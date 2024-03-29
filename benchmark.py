@@ -447,7 +447,7 @@ def get_noval_obj():
     for key, value in scores.items():
         print(f"{key}: {value}")
     
-def test_one_pass():
+def test_inference():
     input_img_path = "./000000111179.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
     response = process_request(input_img_path, input_query)
@@ -473,8 +473,8 @@ def process_lvis_example():
             image = cv2.imread(full_path)
             height, width, _ = image.shape
             for bbox_t, bbox_p in zip(target, pred):
-                cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2] + bbox_t[0]), int(bbox_t[3] + bbox_t[1])), RED, 2)
-                cv2.rectangle(image, (int(bbox_p[0]), int(bbox_p[1])), (int(bbox_p[2] + bbox_t[0]), int(bbox_p[3] + bbox_t[1])), BLUE, 2)
+                cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2]), int(bbox_t[3])), RED, 2)
+                cv2.rectangle(image, (int(bbox_p[0]*width), int(bbox_p[1]*height)), (int(bbox_p[2]*width), int(bbox_p[3]*height)), BLUE, 2)
             counter += 1
             if ( counter == max_images):
                 break
@@ -487,7 +487,7 @@ if __name__ == "__main__":
     if args.mode == 2:
         get_noval_obj()
     if args.mode == 3:
-        test_one_pass()
+        test_inference()
     if args.mode == 4:
         process_lvis_example()
              

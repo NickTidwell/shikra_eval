@@ -478,14 +478,15 @@ def process_lvis_example():
             print(" Pred: " )
             print(pred)
             print("truth: ")
-            print(bbox_p[0]*width)
-            print(bbox_p[1]*height)
-            print(bbox_p[2]*width)
-            print(bbox_p[3]*height)
-            print(bbox_p)
-            for bbox_t, bbox_p in zip(target, pred):
-                cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2]), int(bbox_t[3])), RED, 2)
+            print(target)
+            for bbox_p in pred:
+                print(bbox_p[0]*width)
+                print(bbox_p[1]*height)
+                print(bbox_p[2]*width)
+                print(bbox_p[3]*height) 
                 cv2.rectangle(image, (int(bbox_p[0]*width), int(bbox_p[1]*height)), (int(bbox_p[2]*width), int(bbox_p[3]*height)), BLUE, 2)
+            for bbox_t in target:
+                cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2]), int(bbox_t[3])), RED, 2)
             counter += 1
             if ( counter == max_images):
                 break

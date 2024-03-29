@@ -408,11 +408,19 @@ def get_noval_obj():
             print("common_categories: ")
             print(common_categories)
             if rare_categories:
-                rare_pred_boxes.append(pred)
-                rare_truth_boxes.append(target)
+                for box in pred:
+                    rare_pred_boxes.append(box)
+                for box in target:
+                    rare_pred_boxes.append(box)
+                # rare_pred_boxes.append(pred)
+                # rare_truth_boxes.append(target)
             if common_categories:
-                common_pred_boxes.append(pred)
-                common_truth_boxes.append(target)
+                for box in pred:
+                    common_pred_boxes.append(box)
+                for box in target:
+                    common_truth_boxes.append(box)
+                # common_pred_boxes.append(pred)
+                # common_truth_boxes.append(target)
             itr += 1
 
     # Calculate mAP for rare and common categories

@@ -167,28 +167,35 @@ def group_results(objs_per_image):
                 pass
         if num_truth == 1:
             for box in boxes:
-                grouped_objs['1'].append(box[0])
+                grouped_objs['1'].append(box)
         elif num_truth == 2:
             for box in boxes:
-                grouped_objs['2'].append(box[0])
+                grouped_objs['2'].append(box)
         elif num_truth == 3:
             for box in boxes:
-                grouped_objs['3'].append(box[0])
+                grouped_objs['3'].append(box)
         elif num_truth == 4:
             for box in boxes:
-                grouped_objs['4'].append(box[0])
+                grouped_objs['4'].append(box)
         elif num_truth == 5:
             for box in boxes:
-                grouped_objs['5'].append(box[0])
+                grouped_objs['5'].append(box)
         elif 6 <= num_truth <= 10:
             for box in boxes:
-                grouped_objs['6-10'].append(box[0])
+                grouped_objs['6-10'].append(box)
         elif 11 <= num_truth < 20:
             for box in boxes:
-                grouped_objs['11-20'].append(box[0])
+                grouped_objs['11-20'].append(box)
         elif num_truth >= 20:
             for box in boxes:
                 grouped_objs['20+'].append(box)
+    grouped_objs['1'] = grouped_objs['1'][0]
+    grouped_objs['2'] = grouped_objs['2'][0]
+    grouped_objs['3'] = grouped_objs['20+'][0]
+    grouped_objs['4'] = grouped_objs['4'][0]
+    grouped_objs['5'] = grouped_objs['5'][0]
+    grouped_objs['6-10'] = grouped_objs['6-10'][0]
+    grouped_objs['11-20'] = grouped_objs['11-20'][0]
     grouped_objs['20+'] = grouped_objs['20+'][0]
     return grouped_objs
 def get_obj_complexity():

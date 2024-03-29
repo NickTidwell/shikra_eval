@@ -245,9 +245,9 @@ def get_obj_complexity():
     # for key, value in map_dict.items():
     #     print(f"{key}: {value}")
 def calculate_iou(box1, box2):
-    # print("\ncalculate_iou\n")
-    # print(box1)
-    # print(box2)
+    print("\ncalculate_iou\n")
+    print(box1)
+    print(box2)
     x1, y1, w1, h1 = box1
     x2, y2, w2, h2 = box2
 

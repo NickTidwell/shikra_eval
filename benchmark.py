@@ -476,6 +476,14 @@ def process_lvis_example():
             print(cats)
             image = cv2.imread(full_path)
             height, width, _ = image.shape
+            print(" Pred: " )
+            print(pred)
+            print("truth: ")
+            print(target[0]*width)
+            print(target[1]*height)
+            print(target[2]*width)
+            print(target[3]*height)
+            print(target)
             for bbox_t, bbox_p in zip(target, pred):
                 cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2]), int(bbox_t[3])), RED, 2)
                 cv2.rectangle(image, (int(bbox_p[0]*width), int(bbox_p[1]*height)), (int(bbox_p[2]*width), int(bbox_p[3]*height)), BLUE, 2)

@@ -309,7 +309,11 @@ def parse_response(text):
         pass
 
     return out_list
-
+def get_truth_label2(dataset, full_path):
+    image_id_with_zeros = full_path.split('/')[-1].split('.')[0]
+    image_id = int(image_id_with_zeros.lstrip('0'))
+    bounding_boxes_for_image = [annotation['bbox'] for annotation in dataset['annotations'] if annotation['image_id'] == image_id]
+    return bounding_boxes_for_image
 def get_truth_label(dataset, full_path):
     image_id_with_zeros = full_path.split('/')[-1].split('.')[0]
     image_id = int(image_id_with_zeros.lstrip('0'))
@@ -390,7 +394,7 @@ def get_noval_obj():
             response = process_request(full_path, input_query)
             print("RESPONSE: ")
             print(response)
-            target = get_truth_label(dataset, full_path)
+            target = get_truth_label2(dataset, full_path)
             print("target: ")
             print(target)
             pred = parse_response(response)

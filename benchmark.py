@@ -571,8 +571,8 @@ def test_inference():
     response = process_request(input_img_path, input_query)
     print(response)
 
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
+BLUE = (255, 0, 0)
+RED = (0, 0, 255)
 def process_lvis_example():
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
@@ -599,7 +599,7 @@ def process_lvis_example():
                 print(bbox_p[1]*height)
                 print(bbox_p[2]*width)
                 print(bbox_p[3]*height) 
-                cv2.rectangle(image, (int(bbox_p[0]*width), int(bbox_p[1]*height)), (int(bbox_p[2]*width), int(bbox_p[3]*height)), BLUE, 2)
+                cv2.rectangle(image, (int(bbox_p[0]), int(bbox_p[1])), (int(bbox_p[2]), int(bbox_p[3])), BLUE, 2)
             for bbox_t in target:
                 cv2.rectangle(image, (int(bbox_t[0]), int(bbox_t[1])), (int(bbox_t[2]), int(bbox_t[3])), RED, 2)
             counter += 1

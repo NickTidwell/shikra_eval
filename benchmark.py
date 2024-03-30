@@ -229,21 +229,34 @@ def get_obj_complexity():
 
     gObjPerImgTru = group_results(objsPerImageTruth)
     gObjPerImgPre = group_results(objsPerImagePred)
-    # print("\gObjPerImgPre\n")
-    # for key, value in gObjPerImgPre.items():
-    #     print(f"{key}: {value}")    
-    # print("\nObjPerImgTru\n")
-    # for key, value in gObjPerImgTru.items():
-    #     print(f"{key}: {value}")    
+ 
     map_dict = dict()
+    map_dict2 = dict()
+
     for num_truth, _ in gObjPerImgTru.items(): #TODO Gropu obj
         truth_boxes = gObjPerImgTru[num_truth]
         pred_boxes = gObjPerImgPre[num_truth]
         mAP = compute_mAP(truth_boxes, pred_boxes)
+        map2 = calculate_map(truth_boxes, pred_boxes)
         map_dict[num_truth] = mAP
+        map_dict2[num_truth] = map2
     print("\nOBJECTS COMPLEXITY Output\n")
     for key, value in map_dict.items():
         print(f"{key}: {value}")
+    print("\nOBJECTS COMPLEXITY Output 2\n")
+    for key, value in map_dict2.items():
+        print(f"{key}: {value}")
+# BENCHMARK: #OBJECTS COMPLEXITY
+# {'1': 0.33643977217670995,
+#  '11-20': 0.19447533953963755,
+#  '2': 0.2884404155293563,
+#  '20+': 0.16501156288996235,
+#  '3': 0.24499710785670084,
+#  '4': 0.27332765846534124,
+#  '5': 0.21520631619034958,
+#  '6-10': 0.22239107116240833}
+
+
 def calculate_iou(box1, box2):
     print("\ncalculate_iou\n")
     print(box1)
@@ -263,6 +276,38 @@ def calculate_iou(box1, box2):
     union_area = w1 * h1 + w2 * h2 - intersection_area
 
     return intersection_area / union_area
+
+def calculate_iou2(box1, box2):
+    """
+    Calculate the Intersection over Union (IoU) of two bounding boxes.
+    
+    Args:
+        box1 (list): List containing coordinates [x1, y1, x2, y2] of the first bounding box.
+        box2 (list): List containing coordinates [x1, y1, x2, y2] of the second bounding box.
+    
+    Returns:
+        float: IoU value.
+    """
+    # Calculate intersection coordinates
+    x1 = max(box1[0], box2[0])
+    y1 = max(box1[1], box2[1])
+    x2 = min(box1[2], box2[2])
+    y2 = min(box1[3], box2[3])
+    
+    # Calculate intersection area
+    intersection_area = max(0, x2 - x1 + 1) * max(0, y2 - y1 + 1)
+    
+    # Calculate areas of both bounding boxes
+    box1_area = (box1[2] - box1[0] + 1) * (box1[3] - box1[1] + 1)
+    box2_area = (box2[2] - box2[0] + 1) * (box2[3] - box2[1] + 1)
+    
+    # Calculate union area
+    union_area = box1_area + box2_area - intersection_area
+    
+    # Calculate IoU
+    iou = intersection_area / union_area
+    
+    return iou
 def compute_mAP(ground_truth, predictions, thresh=0.5):
     # Assuming ground_truth and predictions are lists of bounding boxes
     # Each bounding box: [x_min, y_min, x_max, y_max]
@@ -296,6 +341,69 @@ def compute_mAP(ground_truth, predictions, thresh=0.5):
     auc = np.trapz(precision, recall)
     mAP = auc / len(ground_truth)
     return mAP
+
+def calculate_map(gt_boxes_list, pred_boxes_list, iou_thr=0.5):
+    """
+    Calculate the mean average precision (mAP) based on ground truth and predicted bounding boxes.
+    
+    Args:
+        gt_boxes_list (list of lists of lists): List of ground truth bounding boxes for each image.
+        pred_boxes_list (list of lists of lists): List of predicted bounding boxes for each image.
+        iou_thr (float): IoU threshold to consider a detection as correct.
+    
+    Returns:
+        float: Mean average precision (mAP).
+    """
+    precisions = []
+    recalls = []
+    
+    for gt_boxes, pred_boxes in zip(gt_boxes_list, pred_boxes_list):
+        precision, recall = calculate_precision_recall(gt_boxes, pred_boxes, iou_thr)
+        precisions.append(precision)
+        recalls.append(recall)
+    
+    mAP = np.mean(precisions)
+    
+    return mAP
+
+def calculate_precision_recall(gt_boxes, pred_boxes, iou_thr=0.5):
+    """
+    Calculate precision and recall values based on ground truth and predicted bounding boxes.
+    
+    Args:
+        gt_boxes (list of lists): List of ground truth bounding boxes for each image.
+        pred_boxes (list of lists): List of predicted bounding boxes for each image.
+        iou_thr (float): IoU threshold to consider a detection as correct.
+    
+    Returns:
+        tuple: Precision and recall values.
+    """
+    true_positives = 0
+    false_positives = 0
+    total_gt_boxes = 0
+
+    #print("gt_boxes:", gt_boxes)
+    #print("pred_boxes:", pred_boxes)
+    
+    total_gt_boxes += len(gt_boxes)
+    detected = set()
+        
+    for pbox in pred_boxes:
+        for gbox in gt_boxes:
+            #print("pbox:", pbox)
+            #print('gbox:', gbox)
+            iou = calculate_iou2(gbox, pbox)
+            if iou >= iou_thr and str(gbox) not in detected:
+                true_positives += 1
+                detected.add(str(gbox))
+                break
+            else:
+                false_positives += 1
+    
+    precision = true_positives / (true_positives + false_positives + 1e-9)
+    recall = true_positives / (total_gt_boxes + 1e-9)
+    
+    return precision, recall
 def parse_response(text):
     out_list = []
     try:
@@ -435,6 +543,7 @@ def get_noval_obj():
     print(common_pred_boxes)
 
     mAP_common = compute_mAP(common_truth_boxes, common_pred_boxes)
+    mp_common2 = calculate_map(common_truth_boxes, common_pred_boxes)
 
     print("\nrare_truth_boxes\n")
     print(rare_truth_boxes)
@@ -444,12 +553,18 @@ def get_noval_obj():
     print(rare_pred_boxes)
 
     mAP_rare = compute_mAP(rare_truth_boxes, rare_pred_boxes)
+    mp_rare2 = calculate_map(rare_truth_boxes, rare_pred_boxes)
 
     scores = {'rare': mAP_rare, 'common': mAP_common}
+    scores2 = {'rare': mp_rare2, 'common': mp_common2}
+
     print("\nNOVEL OBJECTS\n")
     for key, value in scores.items():
         print(f"{key}: {value}")
-    
+    # {'common': 0.24177250671830122, 'rare': 0.21099913961271372}
+    print("\nNOVEL OBJECTS 2\n")
+    for key, value in scores2.items():
+        print(f"{key}: {value}")
 def test_inference():
     input_img_path = "./000000111179.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."

@@ -241,9 +241,9 @@ def get_obj_complexity():
         pred_boxes = gObjPerImgPre[num_truth]
         mAP = compute_mAP(truth_boxes, pred_boxes)
         map_dict[num_truth] = mAP
-    # print("\nOBJECTS COMPLEXITY Output\n")
-    # for key, value in map_dict.items():
-    #     print(f"{key}: {value}")
+    print("\nOBJECTS COMPLEXITY Output\n")
+    for key, value in map_dict.items():
+        print(f"{key}: {value}")
 def calculate_iou(box1, box2):
     print("\ncalculate_iou\n")
     print(box1)

@@ -573,12 +573,22 @@ def test_inference():
 
 BLUE = (255, 0, 0)
 RED = (0, 0, 255)
+GREEN = (0, 255, 0)
 def process_lvis_example():
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
 
     counter = 0
     max_images = 10
+    category_frequencies = {}
+    for category in dataset['categories']:
+        category_id = category['id']
+        image_count = category['image_count']
+        category_frequencies[category_id] = image_count
+
+    # Calculate quantiles
+    frequencies = list(category_frequencies.values())
+
     for filename in os.listdir(directory_path):
         if filename.lower().endswith(".jpg"):
             full_path = os.path.join(directory_path, filename)
@@ -587,21 +597,19 @@ def process_lvis_example():
             target = get_truth_box(dataset, full_path)
             pred = parse_response(response)
             cats = get_categories(dataset, full_path)
+            rare_categories = [category_id for category_id in cats if category_frequencies.get(category_id, 0) <= 10]
+            # common_categories = [category_id for category_id in cats if category_frequencies.get(category_id, 0) > 10]
             print(cats)
             image = cv2.imread(full_path)
             height, width, _ = image.shape
-            print(" Pred: " )
-            print(pred)
-            print("truth: ")
-            print(target)
+
             for bbox_p in pred:
-                print(bbox_p[0]*width)
-                print(bbox_p[1]*height)
-                print(bbox_p[2]*width)
-                print(bbox_p[3]*height) 
                 cv2.rectangle(image, (int(bbox_p[0]*width), int(bbox_p[1]*height)), (int(bbox_p[2]*width), int(bbox_p[3]*height)), BLUE, 2)
-            for bbox_t in target:
-                cv2.rectangle(image, (int(bbox_t[0]*width), int(bbox_t[1]*height)), (int(bbox_t[2]*width), int(bbox_t[3]*height)), RED, 2)
+            for idx, bbox_t in enumerate(target):
+                COLOR = GREEN
+                if cats[idx] in rare_categories:
+                    COLOR = RED
+                cv2.rectangle(image, (int(bbox_t[0]*width), int(bbox_t[1]*height)), (int(bbox_t[2]*width), int(bbox_t[3]*height)), COLOR, 2)
             counter += 1
             if ( counter == max_images):
                 break

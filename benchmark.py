@@ -29,16 +29,14 @@ def load_args():
     parser = argparse.ArgumentParser("Shikra HW")
     parser.add_argument('--model_path', required=True)
     parser.add_argument('--load_in_8bit', action='store_true')
-    #TODO change these names
-    parser.add_argument('--mode',
+    parser.add_argument('--operation',
                             type=int, default=1,
                             help='Select example to run.')
-    parser.add_argument('--small_set', action='store_true')
-
     args = parser.parse_args()
     print(args)
     return args
 
+# Code extracted and reused from Demo
 #########################################
 # mllm model init
 #########################################
@@ -205,12 +203,9 @@ def get_obj_complexity():
 
     dataset = json.load(open("./data/lvis_v1_val.json", "r"))
     directory_path = "/datasets/MSCOCO17/val2017"
-    itr = 0
+    
     for filename in os.listdir(directory_path):
         if filename.lower().endswith(".jpg"):
-            if args.small_set:
-                if itr == 5000:
-                    break
             full_path = os.path.join(directory_path, filename)
             input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
             response = process_request(full_path, input_query)
@@ -225,7 +220,6 @@ def get_obj_complexity():
             if objInSample not in objsPerImagePred:
                 objsPerImagePred[objInSample] = []
             objsPerImagePred[objInSample].append(pred)
-        itr += 1
 
     gObjPerImgTru = group_results(objsPerImageTruth)
     gObjPerImgPre = group_results(objsPerImagePred)
@@ -239,16 +233,6 @@ def get_obj_complexity():
     print("\nOBJECTS COMPLEXITY Output\n")
     for key, value in map_dict.items():
         print(f"{key}: {value}")
-
-# BENCHMARK: #OBJECTS COMPLEXITY
-# {'1': 0.33643977217670995,
-#  '11-20': 0.19447533953963755,
-#  '2': 0.2884404155293563,
-#  '20+': 0.16501156288996235,
-#  '3': 0.24499710785670084,
-#  '4': 0.27332765846534124,
-#  '5': 0.21520631619034958,
-#  '6-10': 0.22239107116240833}
 
 
 def calculate_iou(box1, box2):
@@ -269,18 +253,13 @@ def calculate_iou(box1, box2):
     return intersection_area / union_area
 
 def compute_mAP(ground_truth, predictions, thresh=0.5):
-    # Assuming ground_truth and predictions are lists of bounding boxes
-    # Each bounding box: [x_min, y_min, x_max, y_max]
     if len(ground_truth) == 0:
         print("ERROR: Ground Truth 0")
         return 0.0  # Return 0 if no ground truth boxes
-    # Calculate IoU for all pairs
     iou_matrix = np.zeros((len(ground_truth), len(predictions)))
     for i, gt_box in enumerate(ground_truth):
         for j, pred_box in enumerate(predictions):
             iou_matrix[i, j] = calculate_iou(gt_box, pred_box)
-
-    # Compute precision and recall
     sorted_indices = np.argsort(-iou_matrix, axis=0)
     tp, fp = 0, 0
     precision, recall = [], []
@@ -344,15 +323,12 @@ def convert_and_normalize_bbox(bbox, image_path):
     q_max_norm = q_max / picture_height
 
     return [p_min_norm, q_min_norm, p_max_norm, q_max_norm]
-
-
 def get_categories(dataset, image_path):
     image_id_with_zeros = image_path.split('/')[-1].split('.')[0]
     image_id = int(image_id_with_zeros.lstrip('0'))
     image_annotations = dataset['annotations']
     image_catgories = [annotation['category_id'] for annotation in image_annotations if annotation['image_id'] == image_id]
     return image_catgories
-
 def get_truth_box(dataset, image_path):
     image_id_with_zeros = image_path.split('/')[-1].split('.')[0]
     image_id = int(image_id_with_zeros.lstrip('0'))
@@ -360,7 +336,6 @@ def get_truth_box(dataset, image_path):
     bounding_boxes_for_image = [annotation['bbox'] for annotation in image_annotations if annotation['image_id'] == image_id]
     bounding_boxes_for_image = [convert_and_normalize_bbox(gt_box, image_path) for gt_box in bounding_boxes_for_image]
     return bounding_boxes_for_image
-
 def get_noval_obj():
     try:
         with open("./data/lvis_v1_val.json", "r") as json_file:
@@ -368,54 +343,34 @@ def get_noval_obj():
     except FileNotFoundError:
         print("Error: LVIS dataset file not found.")
         return
-
-    # Define dataset directory
-    image_directory = "/datasets/MSCOCO17/val2017"
-
-    # Calculate category frequencies
+    directory = "/datasets/MSCOCO17/val2017"
     category_frequencies = {}
     for category in dataset['categories']:
         category_id = category['id']
         image_count = category['image_count']
         category_frequencies[category_id] = image_count
-
     # Calculate quantiles
     frequencies = list(category_frequencies.values())
     quantiles = np.quantile(frequencies, [0.25])  # For example, using the 25th and 75th percentiles
-
     rare_pred_boxes = []
     common_pred_boxes = []
     rare_truth_boxes = []
     common_truth_boxes = []
-    itr = 0
-    # Process each image in the directory
-    for filename in os.listdir(image_directory):
+    for filename in os.listdir(directory):
         if filename.lower().endswith(".jpg"):
-            if args.small_set:
-                if itr == 5000:
-                    break
-            full_path = os.path.join(image_directory, filename)
+            full_path = os.path.join(directory, filename)
             input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
             response = process_request(full_path, input_query)
-            print("RESPONSE: ")
             print(response)
             target = get_truth_box(dataset, full_path)
-            print("target: ")
             print(target)
             pred = parse_response(response)
-            print("pred: ")
             print(pred)
             categories = get_categories(dataset, full_path)
-            print("categories: ")
             print(categories)
             # Sort boxes
             rare_categories = [category_id for category_id in categories if category_frequencies.get(category_id, 0) <= 10]
             common_categories = [category_id for category_id in categories if category_frequencies.get(category_id, 0) > 10]
-            print("rare_categories: ")
-            print(rare_categories)
-
-            print("common_categories: ")
-            print(common_categories)
             if rare_categories:
                 for box in pred:
                     rare_pred_boxes.append(box)
@@ -430,40 +385,80 @@ def get_noval_obj():
                     common_truth_boxes.append(box)
                 # common_pred_boxes.append(pred)
                 # common_truth_boxes.append(target)
-            itr += 1
-
-    # Calculate mAP for rare and common categories
             
-    print("\ncommon_truth_boxes\n")
     print(common_truth_boxes)
-
-    print("\ncommon_pred_boxes\n")
     print(common_pred_boxes)
-
     mAP_common = compute_mAP(common_truth_boxes, common_pred_boxes)
-
-    print("\nrare_truth_boxes\n")
     print(rare_truth_boxes)
-
-
-    print("\nrare_pred_boxes\n")
     print(rare_pred_boxes)
-
     mAP_rare = compute_mAP(rare_truth_boxes, rare_pred_boxes)
-
     scores = {'rare': mAP_rare, 'common': mAP_common}
-
     print("\nNOVEL OBJECTS\n")
     for key, value in scores.items():
         print(f"{key}: {value}")
-    # {'common': 0.24177250671830122, 'rare': 0.21099913961271372}
+    # {'common': 0.25286440731835632, 'rare': 0.21184566624273992}
+
+def get_total_over(first, second):
+    firstA = (first[2] - first[0] + 1) * (first[3] - first[1] + 1)
+    secondA = (second[2] - second[0] + 1) * (second[3] - second[1] + 1)
+    overlap = max(0, min(first[2], second[2]) -  max(first[0], second[0]) + 1) * max(0, min(first[3], second[3]) -  max(first[1], second[1]) + 1) / min(firstA, secondA)
+    return overlap
+def get_grounding_scores(pboxscores, tboxscores):
+    iou_sum = 0
+    overlap_sum = 0
+    total = 0
+
+    for pred_box in pboxscores:
+        for tbox in tboxscores:
+            iou_sum += calculate_iou(pred_box, tbox)
+            overlap_sum += get_total_over(pred_box, tbox)
+            total += 1
+
+    avg_iou = iou_sum / total
+    avg_overlap = overlap_sum / total
+
+    return avg_iou, avg_overlap
+def get_grounding_results():
+    questions = json.load(open("./data/val_balanced_questions.json", "r"))
+    graph = json.load(open("./data/val_sceneGraphs.json", "r"))
+    questions = {k: questions[k] for k in list(questions.keys()) }
+    directory = "/datasets/GQA/images"
+    pred_boxes = []
+    truth_boxes = []
+    iteration = 0
+    for _, item in questions.items():
+        image_id = item['imageId']
+        scene_graph = graph[image_id]
+        image_name = f"{image_id}.jpg"
+        image_path = os.path.join(directory, image_name)
+        if not os.path.exists(image_path): continue # Skip bad paths
+        input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
+        output = process_request(image_path, input_query)
+        truth_bboxes = [convert_and_normalize_bbox(box, image_path) for box in scene_graph['objects'].items()]
+        pred_bboxes = parse_response(output)
+        pred_boxes.append(pred_bboxes)
+        truth_boxes.append(truth_bboxes)
+        iteration += 1
+
+    iou_avg_out, overlap_avg_out = get_grounding_scores(pred_boxes, truth_boxes)
+
+    print("Grounding Test")
+    print("IoU Avg: ", round(iou_avg_out, 2))
+    print("Overlap Avg: ", round(overlap_avg_out, 2))
 
 def test_inference():
+    print("Test Inference Image from: MSCOCO")
     input_img_path = "./000000111179.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
     response = process_request(input_img_path, input_query)
     print(response)
 
+    print("Testing Inference Image from: VG")
+    input_img_path = "./000000111179.jpg"
+    input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
+    response = process_request(input_img_path, input_query)
+    print(response)
+    
 BLUE = (255, 0, 0)
 RED = (0, 0, 255)
 GREEN = (0, 255, 0)
@@ -478,8 +473,6 @@ def process_lvis_example():
         category_id = category['id']
         image_count = category['image_count']
         category_frequencies[category_id] = image_count
-
-
     for filename in os.listdir(directory_path):
         if filename.lower().endswith(".jpg"):
             full_path = os.path.join(directory_path, filename)
@@ -490,15 +483,13 @@ def process_lvis_example():
             cats = get_categories(dataset, full_path)
             rare_categories = [category_id for category_id in cats if category_frequencies.get(category_id, 0) <= 10]
             image = cv2.imread(full_path)
-            height, width, _ = image.shape
-
-            for bbox_p in pred:
-                cv2.rectangle(image, (int(bbox_p[0]*width), int(bbox_p[1]*height)), (int(bbox_p[2]*width), int(bbox_p[3]*height)), BLUE, 2)
-            for idx, bbox_t in enumerate(target):
+            for boxp in pred:
+                cv2.rectangle(image, (int(boxp[0]*image.shape[1]), int(boxp[1]*image.shape[0])), (int(boxp[2]*image.shape[1]), int(boxp[3]*image.shape[0])), BLUE, 2)
+            for idx, boxt in enumerate(target):
                 COLOR = GREEN
                 if cats[idx] in rare_categories:
                     COLOR = RED
-                cv2.rectangle(image, (int(bbox_t[0]*width), int(bbox_t[1]*height)), (int(bbox_t[2]*width), int(bbox_t[3]*height)), COLOR, 2)
+                cv2.rectangle(image, (int(boxt[0]*image.shape[1]), int(boxt[1]*image.shape[0])), (int(boxt[2]*image.shape[1]), int(boxt[3]*image.shape[0])), COLOR, 2)
             counter += 1
             if ( counter == max_images):
                 break
@@ -506,12 +497,13 @@ def process_lvis_example():
             print(response)
 
 if __name__ == "__main__":
-    if args.mode == 1:
+    if args.operation == 1:
         get_obj_complexity()
-    if args.mode == 2:
+    if args.operation == 2:
         get_noval_obj()
-    if args.mode == 3:
+    if args.operation == 3:
         test_inference()
-    if args.mode == 4:
+    if args.operation == 4:
         process_lvis_example()
-             
+    if args.operation == 5:
+        get_grounding_results()      

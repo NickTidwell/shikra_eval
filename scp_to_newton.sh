@@ -1,0 +1,1 @@
+scp -i ~/.ssh/ssh_key $1 cap6412.student20@newton.ist.ucf.edu:~/git/shikra_eval

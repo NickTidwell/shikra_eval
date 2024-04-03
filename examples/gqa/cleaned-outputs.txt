@@ -1,0 +1,4 @@
+Response:  The woman[0.054,0.358,0.494,0.974] is sitting next to a Ronald McDonald statue[0.398,0.088,0.880,0.984] while talking on her cellphone[0.222,0.630,0.258,0.710] .</s>
+Response:  Based on the visual information provided, there are two men [0.456,0.252,0.832,0.818;0.210,0.342,0.538,0.730] in the image, but the image does not provide enough information to determine if they 
+Response:  A man[0.308,0.484,0.508,0.752] in a red jacket[0.370,0.516,0.508,0.642] is skiing on a snowy slope[0.002,0.428,0.998,0.826] .</s>
+Response:  A white parrot[0.082,0.240,0.520,0.872] is standing outside in a tropical setting .</s>

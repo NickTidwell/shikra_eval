@@ -1,0 +1,8 @@
+{
+    "multitest_POINT_TWICE_oq_p_val_accuracy": 0.7184786384161167,
+    "multitest_POINT_TWICE_oq_p_val_failed": 0,
+    "multitest_POINT_TWICE_oq_p_val_runtime": 399.3695,
+    "multitest_POINT_TWICE_oq_p_val_samples_per_second": 14.418,
+    "multitest_POINT_TWICE_oq_p_val_steps_per_second": 1.803,
+    "multitest_POINT_TWICE_oq_p_val_target_failed": 0
+}

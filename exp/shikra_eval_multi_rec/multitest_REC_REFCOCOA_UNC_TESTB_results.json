@@ -1,0 +1,10 @@
+{
+    "multitest_REC_REFCOCOA_UNC_TESTB_accuracy": 0.7314379218654121,
+    "multitest_REC_REFCOCOA_UNC_TESTB_failed": 0,
+    "multitest_REC_REFCOCOA_UNC_TESTB_iou": 0.6338880658149719,
+    "multitest_REC_REFCOCOA_UNC_TESTB_runtime": 1332.8988,
+    "multitest_REC_REFCOCOA_UNC_TESTB_samples_per_second": 3.668,
+    "multitest_REC_REFCOCOA_UNC_TESTB_steps_per_second": 0.459,
+    "multitest_REC_REFCOCOA_UNC_TESTB_target_failed": 0,
+    "multitest_REC_REFCOCOA_UNC_TESTB_warning": "this iou is calculate on normalized box. just for non-rigorous training progress checking.the value is consistent with real iou only if image.width == image.height."
+}

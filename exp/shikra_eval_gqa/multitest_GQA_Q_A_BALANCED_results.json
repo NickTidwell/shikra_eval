@@ -1,0 +1,8 @@
+{
+    "multitest_GQA_Q_A_BALANCED_accuracy": 0.4718556209254253,
+    "multitest_GQA_Q_A_BALANCED_failed": 2,
+    "multitest_GQA_Q_A_BALANCED_runtime": 1967.4973,
+    "multitest_GQA_Q_A_BALANCED_samples_per_second": 6.393,
+    "multitest_GQA_Q_A_BALANCED_steps_per_second": 0.799,
+    "multitest_GQA_Q_A_BALANCED_target_failed": 0
+}

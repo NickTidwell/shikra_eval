@@ -1,0 +1,10 @@
+{
+    "multitest_REC_REFCOCOG_UMD_TEST_accuracy": 0.823161841283066,
+    "multitest_REC_REFCOCOG_UMD_TEST_failed": 0,
+    "multitest_REC_REFCOCOG_UMD_TEST_iou": 0.7108887434005737,
+    "multitest_REC_REFCOCOG_UMD_TEST_runtime": 2806.7977,
+    "multitest_REC_REFCOCOG_UMD_TEST_samples_per_second": 3.421,
+    "multitest_REC_REFCOCOG_UMD_TEST_steps_per_second": 0.428,
+    "multitest_REC_REFCOCOG_UMD_TEST_target_failed": 0,
+    "multitest_REC_REFCOCOG_UMD_TEST_warning": "this iou is calculate on normalized box. just for non-rigorous training progress checking.the value is consistent with real iou only if image.width == image.height."
+}

@@ -1,0 +1,31 @@
+Tue Apr  2 22:13:10 EDT 2024
+Slurm nodes: evc39
+You were assigned 1 gpu(s)
+no change     /apps/anaconda/anaconda3/condabin/conda
+no change     /apps/anaconda/anaconda3/bin/conda
+no change     /apps/anaconda/anaconda3/bin/conda-env
+no change     /apps/anaconda/anaconda3/bin/activate
+no change     /apps/anaconda/anaconda3/bin/deactivate
+no change     /apps/anaconda/anaconda3/etc/profile.d/conda.sh
+no change     /apps/anaconda/anaconda3/etc/fish/conf.d/conda.fish
+no change     /apps/anaconda/anaconda3/shell/condabin/Conda.psm1
+no change     /apps/anaconda/anaconda3/shell/condabin/conda-hook.ps1
+no change     /apps/anaconda/anaconda3/lib/python3.8/site-packages/xontrib/conda.xsh
+no change     /apps/anaconda/anaconda3/etc/profile.d/conda.csh
+no change     /home/cap6412.student20/.bashrc
+No action taken.
+Namespace(examples=True, load_in_8bit=False, mode=3, model_path='shikra-7b', small_set=False)
+LLM device: cuda:0, is_quantized: False, is_loaded_in_4bit: False, is_loaded_in_8bit: False
+vision device: cuda:0, is_quantized: False, is_loaded_in_4bit: False, is_loaded_in_8bit: False
+2385322.jpg
+Answer: statue
+Response:  The woman[0.054,0.358,0.494,0.974] is sitting next to a Ronald McDonald statue[0.398,0.088,0.880,0.984] while talking on her cellphone[0.222,0.630,0.258,0.710] .</s>
+2363419.jpg
+Response:  Based on the visual information provided, there are two men [0.456,0.252,0.832,0.818;0.210,0.342,0.538,0.730] in the image, but the image does not provide enough information to determine if they are both male or female.</s>
+2372640.jpg
+Answer: man
+Response:  A man[0.308,0.484,0.508,0.752] in a red jacket[0.370,0.516,0.508,0.642] is skiing on a snowy slope[0.002,0.428,0.998,0.826] .</s>
+Answer: parrot
+Response:  A white parrot[0.082,0.240,0.520,0.872] is standing outside in a tropical setting .</s>
+Ending script...
+Tue Apr  2 22:19:33 EDT 2024

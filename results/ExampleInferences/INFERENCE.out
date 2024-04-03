@@ -1,0 +1,24 @@
+no change     /apps/anaconda/anaconda3/condabin/conda
+no change     /apps/anaconda/anaconda3/bin/conda
+no change     /apps/anaconda/anaconda3/bin/conda-env
+no change     /apps/anaconda/anaconda3/bin/activate
+no change     /apps/anaconda/anaconda3/bin/deactivate
+no change     /apps/anaconda/anaconda3/etc/profile.d/conda.sh
+no change     /apps/anaconda/anaconda3/etc/fish/conf.d/conda.fish
+no change     /apps/anaconda/anaconda3/shell/condabin/Conda.psm1
+no change     /apps/anaconda/anaconda3/shell/condabin/conda-hook.ps1
+no change     /apps/anaconda/anaconda3/lib/python3.8/site-packages/xontrib/conda.xsh
+no change     /apps/anaconda/anaconda3/etc/profile.d/conda.csh
+no change     /home/cap6412.student20/.bashrc
+No action taken.
+Namespace(examples=False, load_in_8bit=False, mode=0, model_path='shikra-7b', small_set=False)
+LLM device: cuda:0, is_quantized: False, is_loaded_in_4bit: False, is_loaded_in_8bit: False
+vision device: cuda:0, is_quantized: False, is_loaded_in_4bit: False, is_loaded_in_8bit: False
+Test Inference Image from: MSCOCO
+{'use_cache': True, 'do_sample': False, 'pad_token_id': 0, 'bos_token_id': 1, 'eos_token_id': 2, 'max_new_tokens': 512}
+ A building[0.128,0.000,0.873,0.998] with a clock tower[0.321,0.021,0.639,0.624;0.349,0.021,0.599,0.589] on top .</s>
+Testing Inference Image from: VG
+{'use_cache': True, 'do_sample': False, 'pad_token_id': 0, 'bos_token_id': 1, 'eos_token_id': 2, 'max_new_tokens': 512}
+ A grill[0.004,0.000,0.998,0.998] with chicken[0.658,0.334,0.964,0.650] , peppers[0.378,0.408,0.578,0.590] , and bacon[0.250,0.638,0.482,0.784] on it .</s>
+Ending script...
+Tue Apr  2 22:29:05 EDT 2024

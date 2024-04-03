@@ -29,9 +29,7 @@ def load_args():
     parser = argparse.ArgumentParser("Shikra HW")
     parser.add_argument('--model_path', required=True)
     parser.add_argument('--load_in_8bit', action='store_true')
-    parser.add_argument('--operation',
-                            type=int, default=1,
-                            help='Select example to run.')
+    parser.add_argument('--operation', required=True)
     args = parser.parse_args()
     print(args)
     return args
@@ -146,9 +144,6 @@ def process_request(image_path, user_input):
     input_token_len = input_ids.shape[-1]
     response = tokenizer.batch_decode(output_ids[:, input_token_len:])[0]
     return response
-
-
-
 def group_results(objs_per_image):
     grouped_objs = {
     '1': [],
@@ -233,8 +228,6 @@ def get_obj_complexity():
     print("\nOBJECTS COMPLEXITY Output\n")
     for key, value in map_dict.items():
         print(f"{key}: {value}")
-
-
 def calculate_iou(box1, box2):
     x1, y1, w1, h1 = box1
     x2, y2, w2, h2 = box2
@@ -251,7 +244,6 @@ def calculate_iou(box1, box2):
     union_area = w1 * h1 + w2 * h2 - intersection_area
 
     return intersection_area / union_area
-
 def compute_mAP(ground_truth, predictions, thresh=0.5):
     if len(ground_truth) == 0:
         print("ERROR: Ground Truth 0")
@@ -280,7 +272,6 @@ def compute_mAP(ground_truth, predictions, thresh=0.5):
     auc = np.trapz(precision, recall)
     mAP = auc / len(ground_truth)
     return mAP
-
 def parse_response(text):
     out_list = []
     try:
@@ -361,13 +352,9 @@ def get_noval_obj():
             full_path = os.path.join(directory, filename)
             input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
             response = process_request(full_path, input_query)
-            print(response)
             target = get_truth_box(dataset, full_path)
-            print(target)
             pred = parse_response(response)
-            print(pred)
             categories = get_categories(dataset, full_path)
-            print(categories)
             # Sort boxes
             rare_categories = [category_id for category_id in categories if category_frequencies.get(category_id, 0) <= 10]
             common_categories = [category_id for category_id in categories if category_frequencies.get(category_id, 0) > 10]
@@ -376,28 +363,17 @@ def get_noval_obj():
                     rare_pred_boxes.append(box)
                 for box in target:
                     rare_truth_boxes.append(box)
-                # rare_pred_boxes.append(pred)
-                # rare_truth_boxes.append(target)
             if common_categories:
                 for box in pred:
                     common_pred_boxes.append(box)
                 for box in target:
                     common_truth_boxes.append(box)
-                # common_pred_boxes.append(pred)
-                # common_truth_boxes.append(target)
-            
-    print(common_truth_boxes)
-    print(common_pred_boxes)
     mAP_common = compute_mAP(common_truth_boxes, common_pred_boxes)
-    print(rare_truth_boxes)
-    print(rare_pred_boxes)
     mAP_rare = compute_mAP(rare_truth_boxes, rare_pred_boxes)
     scores = {'rare': mAP_rare, 'common': mAP_common}
     print("\nNOVEL OBJECTS\n")
     for key, value in scores.items():
         print(f"{key}: {value}")
-    # {'common': 0.25286440731835632, 'rare': 0.21184566624273992}
-
 def get_total_over(first, second):
     firstA = (first[2] - first[0] + 1) * (first[3] - first[1] + 1)
     secondA = (second[2] - second[0] + 1) * (second[3] - second[1] + 1)
@@ -407,16 +383,13 @@ def get_grounding_scores(pboxscores, tboxscores):
     iou_sum = 0
     overlap_sum = 0
     total = 0
-
     for pred_box in pboxscores:
         for tbox in tboxscores:
             iou_sum += calculate_iou(pred_box, tbox)
             overlap_sum += get_total_over(pred_box, tbox)
             total += 1
-
     avg_iou = iou_sum / total
     avg_overlap = overlap_sum / total
-
     return avg_iou, avg_overlap
 def get_grounding_results():
     questions = json.load(open("./data/val_balanced_questions.json", "r"))
@@ -425,7 +398,6 @@ def get_grounding_results():
     directory = "/datasets/GQA/images"
     pred_boxes = []
     truth_boxes = []
-    iteration = 0
     for _, item in questions.items():
         image_id = item['imageId']
         scene_graph = graph[image_id]
@@ -438,10 +410,7 @@ def get_grounding_results():
         pred_bboxes = parse_response(output)
         pred_boxes.append(pred_bboxes)
         truth_boxes.append(truth_bboxes)
-        iteration += 1
-
     iou_avg_out, overlap_avg_out = get_grounding_scores(pred_boxes, truth_boxes)
-
     print("Grounding Test")
     print("IoU Avg: ", round(iou_avg_out, 2))
     print("Overlap Avg: ", round(overlap_avg_out, 2))

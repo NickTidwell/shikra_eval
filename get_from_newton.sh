@@ -1,0 +1,1 @@
+scp -i ~/.ssh/ssh_key cap6412.student20@newton.ist.ucf.edu:$1 ./

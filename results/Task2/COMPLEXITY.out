@@ -1,0 +1,32 @@
+Sun Mar 31 15:54:31 EDT 2024
+Slurm nodes: evc39
+You were assigned 1 gpu(s)
+no change     /apps/anaconda/anaconda3/condabin/conda
+no change     /apps/anaconda/anaconda3/bin/conda
+no change     /apps/anaconda/anaconda3/bin/conda-env
+no change     /apps/anaconda/anaconda3/bin/activate
+no change     /apps/anaconda/anaconda3/bin/deactivate
+no change     /apps/anaconda/anaconda3/etc/profile.d/conda.sh
+no change     /apps/anaconda/anaconda3/etc/fish/conf.d/conda.fish
+no change     /apps/anaconda/anaconda3/shell/condabin/Conda.psm1
+no change     /apps/anaconda/anaconda3/shell/condabin/conda-hook.ps1
+no change     /apps/anaconda/anaconda3/lib/python3.8/site-packages/xontrib/conda.xsh
+no change     /apps/anaconda/anaconda3/etc/profile.d/conda.csh
+no change     /home/cap6412.student20/.bashrc
+No action taken.
+Namespace(load_in_8bit=False, mode=1, model_path='shikra-7b', small_set=False)
+LLM device: cuda:0, is_quantized: False, is_loaded_in_4bit: False, is_loaded_in_8bit: False
+vision device: cuda:0, is_quantized: False, is_loaded_in_4bit: False, is_loaded_in_8bit: False
+
+OBJECTS COMPLEXITY Output
+
+1: 0.33643977217670995
+2: 0.2884404155293563
+3: 0.24499710785670084
+4: 0.27332765846534124
+5: 0.21520631619034958
+6-10: 0.22239107116240833
+11-20: 0.19447533953963755
+20+: 0.16501156288996235
+Ending script...
+Sun Mar 31 19:46:22 EDT 2024

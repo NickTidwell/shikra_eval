@@ -1,0 +1,302 @@
+Wed Mar 27 16:52:01 EDT 2024
+Slurm nodes: evc18
+You were assigned 1 gpu(s)
+SLURM_ENV: {'SLURM_NODELIST': 'evc18', 'SLURM_JOB_NAME': 'gqa-eval', 'SLURMD_NODENAME': 'evc18', 'SLURM_TOPOLOGY_ADDR': 'spine.B1U1.evc18', 'SLURM_PRIO_PROCESS': '0', 'SLURM_NODE_ALIASES': '(null)', 'SLURM_OVERLAP': '1', 'SLURM_GPUS_ON_NODE': '1', 'SLURM_JOB_QOS': 'course.cap6412', 'SLURM_TOPOLOGY_ADDR_PATTERN': 'switch.switch.node', 'SLURM_JOB_GPUS': '0', 'SLURM_NNODES': '1', 'SLURM_JOBID': '326510', 'SLURM_NTASKS': '1', 'SLURM_TASKS_PER_NODE': '1', 'SLURM_WORKING_CLUSTER': 'newton:evmgnt1:6817:9728:109', 'SLURM_CONF': '/etc/slurm/slurm.conf', 'SLURM_JOB_ID': '326510', 'SLURM_CPUS_PER_TASK': '4', 'SLURM_JOB_USER': 'cap6412.student20', 'SLURM_JOB_UID': '34020', 'SLURM_NODEID': '0', 'SLURM_SUBMIT_DIR': '/lustre/fs1/home/cap6412.student20/git/shikra_eval/slurm', 'SLURM_TASK_PID': '165135', 'SLURM_NPROCS': '1', 'SLURM_CPUS_ON_NODE': '4', 'SLURM_PROCID': '0', 'SLURM_JOB_NODELIST': 'evc18', 'SLURM_LOCALID': '0', 'SLURM_JOB_GID': '34020', 'SLURM_JOB_CPUS_PER_NODE': '4', 'SLURM_CLUSTER_NAME': 'newton', 'SLURM_GTIDS': '0', 'SLURM_SUBMIT_HOST': 'evuser1', 'SLURM_JOB_PARTITION': 'normal', 'SLURM_JOB_ACCOUNT': 'course.cap6412', 'SLURM_WHOLE': '1', 'SLURM_JOB_NUM_NODES': '1', 'SLURM_MEM_PER_NODE': '16384'}
+03/27/2024 16:53:05 - INFO - mllm.config.config - data_args = dict(
+    collator_kwargs=dict(max_length=1024, padding=True),
+    compute_metric=None,
+    gen_kwargs=dict(max_new_tokens=1024, num_beams=1),
+    multitest=dict(
+        GQA_Q_A=dict(
+            cfg=dict(
+                filename=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/../../../data/gqa_all_questions.jsonl',
+                image_folder='/datasets/GQA/images',
+                scene_graph_file=None,
+                scene_graph_index=None,
+                template_file=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/template/VQA.json',
+                type='GQADataset',
+                version='q-a'),
+            compute_metric=dict(type='GQAComputeMetrics')),
+        GQA_Q_A_BALANCED=dict(
+            cfg=dict(
+                filename=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/../../../data/gqa_balanced_questions.jsonl',
+                image_folder='/datasets/GQA/images',
+                scene_graph_file=None,
+                scene_graph_index=None,
+                template_file=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/template/VQA.json',
+                type='GQADataset',
+                version='q-a'),
+            compute_metric=dict(type='GQAComputeMetrics')),
+        GQA_Q_BC=dict(
+            cfg=dict(
+                filename=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/../../../data/gqa_all_questions.jsonl',
+                image_folder='/datasets/GQA/images',
+                scene_graph_file=None,
+                scene_graph_index=None,
+                template_file=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/template/VQA_BCoT.json',
+                type='GQADataset',
+                version='q-a'),
+            compute_metric=dict(type='GQAComputeMetrics')),
+        GQA_Q_BC_BALANCED=dict(
+            cfg=dict(
+                filename=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/../../../data/gqa_balanced_questions.jsonl',
+                image_folder='/datasets/GQA/images',
+                scene_graph_file=None,
+                scene_graph_index=None,
+                template_file=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/template/VQA_BCoT.json',
+                type='GQADataset',
+                version='q-a'),
+            compute_metric=dict(type='GQAComputeMetrics')),
+        GQA_Q_C=dict(
+            cfg=dict(
+                filename=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/../../../data/gqa_all_questions.jsonl',
+                image_folder='/datasets/GQA/images',
+                scene_graph_file=None,
+                scene_graph_index=None,
+                template_file=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/template/VQA_CoT.json',
+                type='GQADataset',
+                version='q-a'),
+            compute_metric=dict(type='GQAComputeMetrics')),
+        GQA_Q_C_BALANCED=dict(
+            cfg=dict(
+                filename=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/../../../data/gqa_balanced_questions.jsonl',
+                image_folder='/datasets/GQA/images',
+                scene_graph_file=None,
+                scene_graph_index=None,
+                template_file=
+                '/lustre/fs1/home/cap6412.student20/git/shikra_eval/config/_base_/dataset/template/VQA_CoT.json',
+                type='GQADataset',
+                version='q-a'),
+            compute_metric=dict(type='GQAComputeMetrics'))),
+    test=None,
+    train=None,
+    validation=None)
+model_args = dict(
+    cache_dir=None,
+    conv_args=dict(
+        conv_template='vicuna_v1.1',
+        tokenize_kwargs=dict(truncation_size=2048),
+        transforms=dict(type='Expand2square')),
+    freeze_backbone=False,
+    freeze_mm_mlp_adapter=False,
+    gen_kwargs_set_bos_token_id=True,
+    gen_kwargs_set_eos_token_id=True,
+    gen_kwargs_set_pad_token_id=True,
+    image_token_len=256,
+    mm_use_im_start_end=True,
+    mm_vision_select_layer=-2,
+    model_max_length=2048,
+    model_name_or_path='shikra-7b',
+    pretrain_mm_mlp_adapter=None,
+    process_func_args=dict(
+        conv=dict(type='ShikraConvProcess'),
+        image=dict(type='ShikraImageProcessor'),
+        target=dict(type='BoxFormatProcess'),
+        text=dict(type='ShikraTextProcess')),
+    sep_image_conv_front=False,
+    target_processor=dict(boxes=dict(type='PlainBoxFormatter')),
+    tune_mm_mlp_adapter=False,
+    type='shikra',
+    version='v1',
+    vision_tower='openai/clip-vit-large-patch14')
+training_args = dict(
+    bf16=False,
+    bf16_full_eval=False,
+    do_eval=False,
+    do_multi_predict=True,
+    do_predict=False,
+    do_train=False,
+    fp16=True,
+    fp16_full_eval=True,
+    logging_steps=1,
+    output_dir='./exp/shikra_eval_gqa',
+    overwrite_output_dir=False,
+    per_device_eval_batch_size=8,
+    predict_with_generate=True,
+    remove_unused_columns=False,
+    report_to='none',
+    seed=42)
+
+03/27/2024 16:53:05 - INFO - mllm.config.config - Training/evaluation parameters Seq2SeqTrainingArguments(
+_n_gpu=1,
+adafactor=False,
+adam_beta1=0.9,
+adam_beta2=0.999,
+adam_epsilon=1e-08,
+auto_find_batch_size=False,
+bf16=False,
+bf16_full_eval=False,
+data_seed=None,
+dataloader_drop_last=False,
+dataloader_num_workers=0,
+dataloader_pin_memory=True,
+ddp_backend=None,
+ddp_broadcast_buffers=None,
+ddp_bucket_cap_mb=None,
+ddp_find_unused_parameters=None,
+ddp_timeout=1800,
+debug=[],
+deepspeed=None,
+disable_tqdm=False,
+dispatch_batches=None,
+do_eval=False,
+do_multi_predict=True,
+do_predict=False,
+do_train=False,
+eval_accumulation_steps=None,
+eval_delay=0,
+eval_steps=None,
+evaluation_strategy=no,
+fp16=True,
+fp16_backend=auto,
+fp16_full_eval=True,
+fp16_opt_level=O1,
+fsdp=[],
+fsdp_config={'min_num_params': 0, 'xla': False, 'xla_fsdp_grad_ckpt': False},
+fsdp_min_num_params=0,
+fsdp_transformer_layer_cls_to_wrap=None,
+full_determinism=False,
+generation_config=None,
+generation_max_length=None,
+generation_num_beams=None,
+gradient_accumulation_steps=1,
+gradient_checkpointing=False,
+greater_is_better=None,
+group_by_length=False,
+half_precision_backend=auto,
+hub_always_push=False,
+hub_model_id=None,
+hub_private_repo=False,
+hub_strategy=every_save,
+hub_token=<HUB_TOKEN>,
+ignore_data_skip=False,
+include_inputs_for_metrics=False,
+jit_mode_eval=False,
+label_names=None,
+label_smoothing_factor=0.0,
+learning_rate=5e-05,
+length_column_name=length,
+load_best_model_at_end=False,
+local_rank=0,
+log_level=passive,
+log_level_replica=warning,
+log_on_each_node=True,
+logging_dir=./exp/shikra_eval_gqa/runs/Mar27_16-53-03_evc18,
+logging_first_step=False,
+logging_nan_inf_filter=True,
+logging_steps=1,
+logging_strategy=steps,
+lr_scheduler_type=linear,
+max_grad_norm=1.0,
+max_steps=-1,
+metric_for_best_model=None,
+mp_parameters=,
+no_cuda=False,
+num_train_epochs=3.0,
+optim=adamw_torch,
+optim_args=None,
+output_dir=./exp/shikra_eval_gqa,
+overwrite_output_dir=False,
+past_index=-1,
+per_device_eval_batch_size=8,
+per_device_train_batch_size=8,
+predict_with_generate=True,
+prediction_loss_only=False,
+push_to_hub=False,
+push_to_hub_model_id=None,
+push_to_hub_organization=None,
+push_to_hub_token=<PUSH_TO_HUB_TOKEN>,
+ray_scope=last,
+remove_unused_columns=False,
+report_to=[],
+resume_from_checkpoint=None,
+run_name=./exp/shikra_eval_gqa,
+save_on_each_node=False,
+save_safetensors=False,
+save_steps=500,
+save_strategy=steps,
+save_total_limit=None,
+seed=42,
+sharded_ddp=[],
+skip_memory_metrics=True,
+sortish_sampler=False,
+tf32=None,
+torch_compile=False,
+torch_compile_backend=None,
+torch_compile_mode=None,
+torchdynamo=None,
+tpu_metrics_debug=False,
+tpu_num_cores=None,
+use_cpu=False,
+use_ipex=False,
+use_legacy_prediction_loop=False,
+use_mps_device=False,
+warmup_ratio=0.0,
+warmup_steps=0,
+weight_decay=0.0,
+)
+03/27/2024 16:53:05 - WARNING - mllm.config.config - Process rank: 0, device: cuda:0, n_gpu: 1
+  distributed training: True, fp16 training: True
+trainable params: 6742638592 || all params: 6742638592 || trainable%: 100.0000
+processing multitest set
+processing multitest set. done.
+03/27/2024 17:02:29 - WARNING - accelerate.utils.other - Detected kernel version 3.10.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+processing multitest set 0/6: GQA_Q_A_BALANCED
+=================== test sample ===================
+        input_ids: ['<s>', '▁A', '▁chat', '▁between', '▁a', '▁curious', '▁user', '▁and', '▁an', '▁artificial', '▁intelligence', '▁assistant', '.', '▁The', '▁assistant', '▁gives', '▁helpful', ',', '▁detailed', ',', '▁and', '▁pol', 'ite', '▁answers', '▁to', '▁the', '▁user', "'", 's', '▁questions', '.', '▁US', 'ER', ':', '▁Give', '▁a', '▁simple', '▁and', '▁straight', '▁answer', '▁to', "▁'", 'Is', '▁it', '▁over', 'cast', "?'", '▁based', '▁on', '▁the', '▁information', '▁in', '▁the', '▁image', '<im_start>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_end>', '▁.', '▁A', 'SS', 'IST', 'ANT', ':']
+           labels: ['▁A', '▁chat', '▁between', '▁a', '▁curious', '▁user', '▁and', '▁an', '▁artificial', '▁intelligence', '▁assistant', '.', '▁The', '▁assistant', '▁gives', '▁helpful', ',', '▁detailed', ',', '▁and', '▁pol', 'ite', '▁answers', '▁to', '▁the', '▁user', "'", 's', '▁questions', '.', '▁US', 'ER', ':', '▁Give', '▁a', '▁simple', '▁and', '▁straight', '▁answer', '▁to', "▁'", 'Is', '▁it', '▁over', 'cast', "?'", '▁based', '▁on', '▁the', '▁information', '▁in', '▁the', '▁image', '<im_start>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_end>', '▁.', '▁A', 'SS', 'IST', 'ANT', ':', '▁The', '▁answer', '▁is', '▁no', '.', '</s>']
+decoded input_ids: <s>A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: Give a simple and straight answer to 'Is it overcast?' based on the information in the image <im_start> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_end> . ASSISTANT:
+decoded    labels: A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: Give a simple and straight answer to 'Is it overcast?' based on the information in the image <im_start> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_end>  . ASSISTANT: The answer is no.</s>
+            image: torch.Size([3, 224, 224])
+====================================================
+saving some sample to exp/shikra_eval_gqa/sample_check_test_0_1.pt for check.
+03/27/2024 17:04:10 - WARNING - mllm.engine.base_engine - generate use kwargs: dict_keys(['max_new_tokens', 'num_beams', 'use_cache', 'pad_token_id', 'bos_token_id', 'eos_token_id', 'synced_gpus', 'input_ids', 'attention_mask', 'images'])
+03/27/2024 17:33:41 - WARNING - mllm.dataset.utils.compute_metrics - preds shape: (12578, 25). targets shape: (12578, 350)
+***** multitest_GQA_Q_A_BALANCED metrics *****
+  multitest_GQA_Q_A_BALANCED_accuracy           =     0.4719
+  multitest_GQA_Q_A_BALANCED_failed             =          2
+  multitest_GQA_Q_A_BALANCED_runtime            = 0:32:47.49
+  multitest_GQA_Q_A_BALANCED_samples_per_second =      6.393
+  multitest_GQA_Q_A_BALANCED_steps_per_second   =      0.799
+  multitest_GQA_Q_A_BALANCED_target_failed      =          0
+03/27/2024 17:35:19 - WARNING - mllm.engine.base_engine - preds shape: (12578, 25). targets shape: (12578, 350)
+processing multitest set 1/6: GQA_Q_C_BALANCED
+=================== test sample ===================
+        input_ids: ['<s>', '▁A', '▁chat', '▁between', '▁a', '▁curious', '▁user', '▁and', '▁an', '▁artificial', '▁intelligence', '▁assistant', '.', '▁The', '▁assistant', '▁gives', '▁helpful', ',', '▁detailed', ',', '▁and', '▁pol', 'ite', '▁answers', '▁to', '▁the', '▁user', "'", 's', '▁questions', '.', '▁US', 'ER', ':', '▁Please', '▁analyze', '▁the', '▁image', '<im_start>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_end>', '▁and', '▁supply', '▁an', '▁answer', '▁to', '▁the', '▁following', '▁query', ':', '▁Is', '▁it', '▁over', 'cast', '?', '▁Ens', 'ure', '▁to', '▁el', 'uc', 'id', 'ate', '▁the', '▁just', 'ifying', '▁process', '.', '▁A', 'SS', 'IST', 'ANT', ':']
+           labels: ['▁A', '▁chat', '▁between', '▁a', '▁curious', '▁user', '▁and', '▁an', '▁artificial', '▁intelligence', '▁assistant', '.', '▁The', '▁assistant', '▁gives', '▁helpful', ',', '▁detailed', ',', '▁and', '▁pol', 'ite', '▁answers', '▁to', '▁the', '▁user', "'", 's', '▁questions', '.', '▁US', 'ER', ':', '▁Please', '▁analyze', '▁the', '▁image', '<im_start>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_end>', '▁and', '▁supply', '▁an', '▁answer', '▁to', '▁the', '▁following', '▁query', ':', '▁Is', '▁it', '▁over', 'cast', '?', '▁Ens', 'ure', '▁to', '▁el', 'uc', 'id', 'ate', '▁the', '▁just', 'ifying', '▁process', '.', '▁A', 'SS', 'IST', 'ANT', ':', '▁The', '▁answer', '▁is', '▁no', '.', '</s>']
+decoded input_ids: <s>A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: Please analyze the image <im_start> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_end> and supply an answer to the following query: Is it overcast? Ensure to elucidate the justifying process. ASSISTANT:
+decoded    labels: A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: Please analyze the image <im_start> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_end>  and supply an answer to the following query: Is it overcast? Ensure to elucidate the justifying process. ASSISTANT: The answer is no.</s>
+            image: torch.Size([3, 224, 224])
+====================================================
+saving some sample to exp/shikra_eval_gqa/sample_check_test_0_1.pt for check.
+03/27/2024 18:29:28 - WARNING - mllm.dataset.utils.compute_metrics - preds shape: (12578, 44). targets shape: (12578, 353)
+***** multitest_GQA_Q_C_BALANCED metrics *****
+  multitest_GQA_Q_C_BALANCED_accuracy           =     0.4638
+  multitest_GQA_Q_C_BALANCED_failed             =          3
+  multitest_GQA_Q_C_BALANCED_runtime            = 0:54:17.51
+  multitest_GQA_Q_C_BALANCED_samples_per_second =      3.861
+  multitest_GQA_Q_C_BALANCED_steps_per_second   =      0.483
+  multitest_GQA_Q_C_BALANCED_target_failed      =          0
+03/27/2024 18:31:15 - WARNING - mllm.engine.base_engine - preds shape: (12578, 44). targets shape: (12578, 353)
+processing multitest set 2/6: GQA_Q_BC_BALANCED
+=================== test sample ===================
+        input_ids: ['<s>', '▁A', '▁chat', '▁between', '▁a', '▁curious', '▁user', '▁and', '▁an', '▁artificial', '▁intelligence', '▁assistant', '.', '▁The', '▁assistant', '▁gives', '▁helpful', ',', '▁detailed', ',', '▁and', '▁pol', 'ite', '▁answers', '▁to', '▁the', '▁user', "'", 's', '▁questions', '.', '▁US', 'ER', ':', '▁Upon', '▁evalu', 'ating', '▁the', '▁image', '<im_start>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_end>', '▁,', '▁I', '▁would', '▁like', '▁your', '▁assistance', '▁in', '▁understanding', '▁the', '▁answer', '▁to', "▁'", 'Is', '▁it', '▁over', 'cast', '?', "'.", '▁Please', '▁offer', '▁your', '▁reasoning', '▁process', ',', '▁and', '▁mention', '▁the', '▁bound', 'ing', '▁boxes', '▁of', '▁the', '▁objects', '▁in', '▁the', '▁image', '▁using', '▁square', '▁brackets', '.', '▁A', 'SS', 'IST', 'ANT', ':']
+           labels: ['▁A', '▁chat', '▁between', '▁a', '▁curious', '▁user', '▁and', '▁an', '▁artificial', '▁intelligence', '▁assistant', '.', '▁The', '▁assistant', '▁gives', '▁helpful', ',', '▁detailed', ',', '▁and', '▁pol', 'ite', '▁answers', '▁to', '▁the', '▁user', "'", 's', '▁questions', '.', '▁US', 'ER', ':', '▁Upon', '▁evalu', 'ating', '▁the', '▁image', '<im_start>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_patch>', '<im_end>', '▁,', '▁I', '▁would', '▁like', '▁your', '▁assistance', '▁in', '▁understanding', '▁the', '▁answer', '▁to', "▁'", 'Is', '▁it', '▁over', 'cast', '?', "'.", '▁Please', '▁offer', '▁your', '▁reasoning', '▁process', ',', '▁and', '▁mention', '▁the', '▁bound', 'ing', '▁boxes', '▁of', '▁the', '▁objects', '▁in', '▁the', '▁image', '▁using', '▁square', '▁brackets', '.', '▁A', 'SS', 'IST', 'ANT', ':', '▁The', '▁answer', '▁is', '▁no', '.', '</s>']
+decoded input_ids: <s>A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: Upon evaluating the image <im_start> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_end> , I would like your assistance in understanding the answer to 'Is it overcast?'. Please offer your reasoning process, and mention the bounding boxes of the objects in the image using square brackets. ASSISTANT:
+decoded    labels: A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: Upon evaluating the image <im_start> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_patch> <im_end>  , I would like your assistance in understanding the answer to 'Is it overcast?'. Please offer your reasoning process, and mention the bounding boxes of the objects in the image using square brackets. ASSISTANT: The answer is no.</s>
+            image: torch.Size([3, 224, 224])
+====================================================
+saving some sample to exp/shikra_eval_gqa/sample_check_test_0_1.pt for check.
+Ending script...
+Wed Mar 27 18:54:39 EDT 2024

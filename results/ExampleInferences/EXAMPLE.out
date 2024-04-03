@@ -1,0 +1,40 @@
+Sat Mar 30 13:52:43 EDT 2024
+Slurm nodes: evc42
+You were assigned 1 gpu(s)
+no change     /apps/anaconda/anaconda3/condabin/conda
+no change     /apps/anaconda/anaconda3/bin/conda
+no change     /apps/anaconda/anaconda3/bin/conda-env
+no change     /apps/anaconda/anaconda3/bin/activate
+no change     /apps/anaconda/anaconda3/bin/deactivate
+no change     /apps/anaconda/anaconda3/etc/profile.d/conda.sh
+no change     /apps/anaconda/anaconda3/etc/fish/conf.d/conda.fish
+no change     /apps/anaconda/anaconda3/shell/condabin/Conda.psm1
+no change     /apps/anaconda/anaconda3/shell/condabin/conda-hook.ps1
+no change     /apps/anaconda/anaconda3/lib/python3.8/site-packages/xontrib/conda.xsh
+no change     /apps/anaconda/anaconda3/etc/profile.d/conda.csh
+no change     /home/cap6412.student20/.bashrc
+No action taken.
+Namespace(load_in_8bit=False, mode=4, model_path='shikra-7b', small_set=False)
+LLM device: cuda:0, is_quantized: False, is_loaded_in_4bit: False, is_loaded_in_8bit: False
+vision device: cuda:0, is_quantized: False, is_loaded_in_4bit: False, is_loaded_in_8bit: False
+[207, 445]
+ A white car[0.158,0.302,0.760,0.608] is parked on a city street[0.000,0.124,0.998,0.702] in the rain .</s>
+[948, 948, 948, 948, 948, 832, 832, 832, 832, 832, 832, 832, 832, 832, 832, 832, 1156, 589, 589, 1133, 1133, 1123, 885, 230, 962]
+ A man[0.314,0.160,0.578,0.842] in a red shirt[0.394,0.250,0.582,0.568] is skateboarding past a food vendor[0.166,0.000,0.342,0.768] .</s>
+[474]
+ A group of people[0.472,0.436,0.538,0.614;0.328,0.384,0.462,0.646;0.178,0.414,0.234,0.570;0.064,0.556,0.150,0.602;0.902,0.384,0.960,0.498] are playing in the sand[0.002,0.472,0.998,0.820] .</s>
+[651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 651, 61, 61, 817, 817, 817, 817, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 146, 421]
+ A man[0.078,0.130,0.400,0.736] in a red shirt[0.086,0.286,0.314,0.662] is standing behind a bar with two glasses of wine[0.218,0.674,0.344,0.874;0.648,0.542,0.752,0.742] on it .</s>
+[1115]
+ A blue and white train[0.034,0.158,0.882,0.734] is on the tracks[0.042,0.184,0.994,0.994] going around a curve .</s>
+[832, 816, 1162]
+ A pizza[0.212,0.306,0.700,0.821] with several toppings[0.212,0.306,0.700,0.821] and a can of Mountain Dew[0.778,0.218,0.966,0.514] .</s>
+[358, 358, 358, 358, 358, 358, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 611, 1060, 1060, 1060, 1108, 1108, 1108, 1108, 1045, 1045, 1045, 1045, 1045, 1045, 1045, 1045]
+ A group of people[0.000,0.598,0.998,0.874] are flying kites[0.484,0.390,0.684,0.444;0.422,0.474,0.684,0.576;0.210,0.392,0.316,0.452;0.398,0.476,0.648,0.572;0.294,0.508,0.468,0.564;0.160,0.560,0.244,0.610;0.778,0.536,0.820,0.576;0.498,0.186,0.596,0.230;0.182,0.194,0.262,0.240;0.712,0.464,0.778,0.504;0.246,0.142,0.314,0.176;0.142,0.576,0.216,0.604;0.588,0.182,0.652,0.226;0.812,0.355,0.868,0.394] on the beach[0.000,0.656,0.998,0.874] .</s>
+[1115, 1115, 1115]
+ A group of people[0.708,0.468,0.768,0.606;0.756,0.452,0.808,0.594;0.810,0.472,0.858,0.598] are standing next to a train[0.112,0.330,0.996,0.808] .</s>
+[1042, 1042, 592, 592]
+ Two older people[0.002,0.308,0.754,0.832;0.516,0.208,0.938,0.828] are playing with a Wii .</s>
+[498, 498, 498, 498, 498, 498, 498, 498, 814, 1190, 1190, 1190, 1190, 1190, 1190, 1190, 1190, 1190, 1190, 1190, 181, 181, 181, 181, 181, 181, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 1188, 995]
+Ending script...
+Sat Mar 30 14:00:29 EDT 2024

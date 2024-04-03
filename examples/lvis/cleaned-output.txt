@@ -1,0 +1,4 @@
+ A white car[0.158,0.302,0.760,0.608] is parked on a city street[0.000,0.124,0.998,0.702] in the rain .</s>
+ A man[0.314,0.160,0.578,0.842] in a red shirt[0.394,0.250,0.582,0.568] is skateboarding past a food vendor[0.166,0.000,0.342,0.768] .</s>
+ A blue and white train[0.034,0.158,0.882,0.734] is on the tracks[0.042,0.184,0.994,0.994] going around a curve .</s>
+ A man[0.078,0.130,0.400,0.736] in a red shirt[0.086,0.286,0.314,0.662] is standing behind a bar with two glasses of wine[0.218,0.674,0.344,0.874;0.648,0.542,0.752,0.742] on it .</s>

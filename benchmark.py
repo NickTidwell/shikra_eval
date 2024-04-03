@@ -454,11 +454,11 @@ def test_inference():
     print(response)
 
     print("Testing Inference Image from: VG")
-    input_img_path = "./000000111179.jpg"
+    input_img_path = "./2378570.jpg"
     input_query = "Given the following image. Output the bounding box coordinates of each object in the image."
     response = process_request(input_img_path, input_query)
     print(response)
-    
+
 BLUE = (255, 0, 0)
 RED = (0, 0, 255)
 GREEN = (0, 255, 0)
